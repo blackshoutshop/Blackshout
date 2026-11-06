@@ -1,0 +1,1772 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>BLACKSHOUT</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="BLACKSHOUT, streetwear premium hecho en Argentina.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/*
+ * BLACKSHOUT — estilos.
+ * Concepto: composición editorial de campaña. Negro de impresión, blanco como
+ * único contraste, cromo reservado a un solo momento por pantalla y
+ * micro-textos en naranja, como etiquetas de prenda.
+ */
+:root {
+  /* Color */
+  --bg: #0a0a0b;          /* negro de campaña */
+  --carbon: #131315;      /* superficie 1 */
+  --panel: #1a1a1d;       /* superficie 2 */
+  --line: #2b2b30;        /* filetes */
+  --ink: #f3f3f0;         /* blanco principal */
+  --mute: #9b9ba2;        /* texto secundario */
+  --orange: #ff6a2b;      /* micro-etiquetas */
+  --studio: #c9cacd;      /* fondo de foto de producto */
+  --chrome: linear-gradient(100deg, #f7f7f9 0%, #a3a5ad 38%, #ffffff 52%, #7b7d85 78%, #dcdde2 100%);
+
+  /* Tipografía */
+  --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* Medidas */
+  --gut: clamp(16px, 3.2vw, 48px);
+  --header-h: 62px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+html.lock { overflow: hidden; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 15px/1.55 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+/* Franja bajo la barra de estado del teléfono: continúa el color del header. */
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  background: var(--bg); z-index: 10;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: 0; padding: 0; }
+ul { list-style: none; margin: 0; padding: 0; }
+h1, h2, h3, p { margin: 0; }
+:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip { position: absolute; left: 8px; top: -60px; background: var(--ink); color: var(--bg); padding: 10px 14px; z-index: 100; }
+.skip:focus { top: calc(8px + env(safe-area-inset-top, 0px)); }
+
+.wrap {
+  width: 100%; max-width: 1680px; margin-inline: auto;
+  padding-left: max(var(--gut), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--gut), env(safe-area-inset-right, 0px));
+}
+
+/* ---------- Tipografía ---------- */
+.d, .h1, .h2, .hero__line, .about__big, .cat__name, .coll__name, .pdp__name, .h3 {
+  font-family: var(--font-display); font-style: italic; font-weight: 900;
+  font-stretch: 112%; text-transform: uppercase; letter-spacing: -.02em; line-height: .92;
+}
+.h1 { font-size: clamp(2.7rem, 10vw, 7.5rem); }
+.h2 { font-size: clamp(1.9rem, 5.6vw, 4rem); }
+.h3 { font-size: 1.35rem; font-weight: 800; }
+.label {
+  font: 500 11px/1.4 var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--orange);
+}
+.pending {
+  display: inline-block; font: 500 10px/1.3 var(--font-mono); letter-spacing: .1em; text-transform: uppercase;
+  color: var(--orange); border: 1px dashed var(--orange); padding: 2px 6px;
+}
+.link-arrow { display: inline-flex; align-items: center; gap: 10px; font: 500 12px var(--font-mono); letter-spacing: .14em; border-bottom: 1px solid var(--ink); padding-bottom: 4px; white-space: nowrap; }
+.link-arrow .icon { width: 18px; height: 18px; transition: transform .3s var(--ease); }
+.link-arrow:hover .icon { transform: translateX(4px); }
+.linkbtn { font: 500 11px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; text-decoration: underline; text-underline-offset: 4px; color: var(--mute); }
+.linkbtn:hover { color: var(--ink); }
+
+/* ---------- Botones ---------- */
+.btn {
+  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  min-height: 52px; padding: 0 28px; border: 1px solid var(--ink); background: transparent; color: var(--ink);
+  font: 500 12px/1 var(--font-mono); letter-spacing: .16em; text-transform: uppercase;
+  transition: background .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease);
+}
+.btn .icon { width: 18px; height: 18px; transition: transform .3s var(--ease); }
+.btn:hover { background: var(--ink); color: var(--bg); }
+.btn:hover .icon { transform: translateX(4px); }
+.btn--solid { background: var(--ink); color: var(--bg); }
+.btn--solid:hover { background: transparent; color: var(--ink); }
+.btn--wide { flex: 1; }
+.btn:disabled { opacity: .4; pointer-events: none; }
+
+/* ---------- Franja de aviso ---------- */
+.devstrip { background: var(--orange); color: #120600; font: 500 11px/1.3 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; padding-block: 8px; text-align: center; }
+
+/* ---------- Header ---------- */
+.header {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: rgba(10, 10, 11, .92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.header__in { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px; height: var(--header-h); }
+.logo img { width: clamp(118px, 15vw, 168px); height: auto; }
+.nav { display: none; justify-content: center; gap: clamp(18px, 2.6vw, 40px); }
+.nav a {
+  position: relative; font: 500 12px var(--font-mono); letter-spacing: .16em; text-transform: uppercase; padding-block: 8px;
+}
+.nav a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: 2px; height: 1px; background: var(--ink); transition: right .35s var(--ease); }
+.nav a:hover::after, .nav a[aria-current="page"]::after { right: 0; }
+.actions { display: flex; align-items: center; justify-self: end; gap: 2px; }
+.iconbtn { position: relative; display: grid; place-items: center; width: 44px; height: 44px; transition: opacity .2s; }
+.iconbtn:hover { opacity: .65; }
+.iconbtn .icon { width: 22px; height: 22px; }
+.badge-count {
+  position: absolute; top: 5px; right: 3px; min-width: 17px; height: 17px; padding: 0 4px; border-radius: 9px;
+  background: var(--ink); color: var(--bg); font: 600 10px/17px var(--font-mono); text-align: center;
+}
+.menubtn { display: grid; }
+@media (min-width: 960px) {
+  .nav { display: flex; }
+  .menubtn { display: none; }
+  .header__in { grid-template-columns: 1fr auto 1fr; }
+}
+
+/* ---------- Hero ---------- */
+main { outline: none; display: block; }
+main > * { animation: rise .7s var(--ease) both; }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+.hero { position: relative; height: clamp(540px, 148vw, 760px); overflow: hidden; background: #000; }
+.hero__photos { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr; }
+.hero__photo { width: 100%; height: 100%; object-fit: cover; object-position: 50% 52%; }
+.hero__photo--b { display: none; }
+.hero__shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.35) 45%, rgba(0,0,0,0) 70%); }
+.hero__copy {
+  position: absolute; inset: auto 0 0 0; display: flex; flex-direction: column; align-items: flex-start; gap: 18px;
+  padding-bottom: clamp(26px, 4.4vw, 60px);
+}
+.hero__title img { width: clamp(250px, 56vw, 860px); height: auto; }
+.hero__line { font-size: clamp(1rem, 2.1vw, 1.7rem); font-weight: 800; line-height: 1.05; letter-spacing: 0; }
+@media (min-width: 760px) {
+  .hero__copy { inset: 0 0 auto 0; padding-top: clamp(40px, 7vw, 110px); }
+  .hero__copy > * { max-width: 46%; }
+  .hero__title img { width: min(100%, 700px); }
+  .hero__shade { background: linear-gradient(to right, rgba(0,0,0,.8) 0%, rgba(0,0,0,.35) 40%, rgba(0,0,0,0) 60%); }
+  .hero { height: clamp(560px, 58vw, 900px); }
+  .hero__photos { grid-template-columns: 1fr 1fr; }
+  .hero__photo--b { display: block; }
+}
+
+.strip { border-block: 1px solid var(--line); }
+.strip__row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px; padding-block: 16px; font: 500 11px var(--font-mono); letter-spacing: .2em; color: var(--mute); }
+
+/* ---------- Secciones ---------- */
+.sec { padding-block: clamp(56px, 8vw, 120px) 0; }
+.sec-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px 24px; flex-wrap: wrap; margin-bottom: clamp(22px, 3vw, 40px); }
+.sec-head .label { margin-bottom: 10px; }
+.page-head { padding-top: clamp(36px, 6vw, 88px); padding-bottom: clamp(18px, 3vw, 36px); display: flex; flex-direction: column; gap: 14px; }
+.page-head__blurb { max-width: 52ch; color: var(--mute); font-size: 1.05rem; }
+.sec--last .card__left { display: block; }
+
+/* ---------- Grilla y tarjetas ---------- */
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 12px; }
+@media (min-width: 760px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 18px; } }
+@media (min-width: 1100px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 48px 20px; } }
+.empty { color: var(--mute); padding-block: 48px; }
+
+.card__link { display: block; }
+.card__media { position: relative; aspect-ratio: 4 / 5; background: var(--studio); overflow: hidden; }
+.card__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .5s var(--ease), transform .9s var(--ease); }
+.card__img--b { opacity: 0; }
+@media (hover: hover) {
+  .card__link:hover .card__img--a { transform: scale(1.035); }
+  .card__link:hover .card__img--b { opacity: 1; transform: scale(1.035); }
+  .card__link:hover .card__name { text-decoration: underline; text-underline-offset: 4px; }
+}
+.card.is-out .card__img { filter: grayscale(.7); opacity: .6; }
+.card.is-out .card__img--b { display: none; }
+.badges { position: absolute; top: 10px; left: 10px; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; z-index: 2; }
+.badge { font: 600 9.5px/1 var(--font-mono); letter-spacing: .14em; padding: 6px 8px; background: var(--ink); color: var(--bg); }
+.badge--last { background: var(--orange); color: #130700; }
+.badge--out { background: var(--bg); color: var(--ink); border: 1px solid var(--ink); }
+.badge--sale { background: var(--chrome); color: #000; }
+.card__body { display: flex; flex-direction: column; gap: 6px; padding-top: 14px; }
+.card__name { font-size: 13.5px; font-weight: 800; font-stretch: 100%; letter-spacing: 0; line-height: 1.2; }
+.price { display: inline-flex; gap: 8px; align-items: baseline; font: 500 13px var(--font-mono); font-variant-numeric: tabular-nums; }
+.price__was { color: var(--mute); }
+.card__sizes { display: flex; gap: 10px; font: 500 10.5px var(--font-mono); letter-spacing: .08em; color: var(--mute); }
+.card__sizes .is-off { text-decoration: line-through; opacity: .45; }
+.card__left { display: none; font: 500 11px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--orange); }
+
+/* ---------- Categorías ---------- */
+.cats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (min-width: 900px) { .cats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; } }
+.cat { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; background: var(--studio); isolation: isolate; }
+.cat img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
+.cat::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.78), rgba(0,0,0,0) 55%); z-index: 1; }
+.cat__name { position: absolute; left: 16px; bottom: 16px; z-index: 2; font-size: clamp(1.4rem, 3.4vw, 2.6rem); color: var(--ink); }
+.cat__go { position: absolute; right: 14px; bottom: 16px; z-index: 2; transition: transform .35s var(--ease); }
+.cat__go .icon { width: 22px; height: 22px; }
+@media (hover: hover) { .cat:hover img { transform: scale(1.04); } .cat:hover .cat__go { transform: translateX(5px); } }
+.cat--soon { background: var(--carbon); border: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; padding: 16px; }
+.cat--soon::after { display: none; }
+.cat--soon .cat__name { position: static; color: transparent; -webkit-text-stroke: 1px var(--mute); }
+.cat__soon { font: 500 10.5px var(--font-mono); letter-spacing: .18em; color: var(--orange); }
+
+/* ---------- Editorial ---------- */
+.editorial { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: start; }
+@media (min-width: 900px) { .editorial { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; } }
+.ed { display: block; position: relative; }
+.ed img { width: 100%; height: auto; object-fit: cover; background: var(--studio); transition: filter .5s; }
+.ed__cap { display: block; margin-top: 10px; }
+.ed--2 { margin-top: 36px; } .ed--4 { margin-top: 36px; }
+@media (min-width: 900px) { .ed--2 { margin-top: 72px; } .ed--3 { margin-top: 24px; } .ed--4 { margin-top: 96px; } }
+@media (hover: hover) { .ed:hover img { filter: brightness(1.08); } }
+
+/* ---------- Sobre la marca ---------- */
+.about { padding-bottom: clamp(56px, 8vw, 120px); }
+.about .label { margin-bottom: 18px; }
+.about__big { font-size: clamp(2.1rem, 7.4vw, 6.6rem); max-width: 16ch; line-height: .95; text-wrap: balance; }
+.about__big em { font-style: italic; background: var(--chrome); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+.about__cols { margin-top: clamp(24px, 4vw, 48px); display: flex; flex-wrap: wrap; gap: 24px 48px; align-items: center; justify-content: space-between; }
+.about__cols p { max-width: 44ch; color: var(--mute); font-size: 1.05rem; }
+.about--page { padding-top: clamp(24px, 4vw, 64px); }
+
+/* ---------- Listados ---------- */
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 24px; padding-block: 16px; border-block: 1px solid var(--line); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: 500 11.5px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; padding: 9px 14px; border: 1px solid var(--line); transition: background .25s, color .25s, border-color .25s; }
+.chip:hover { border-color: var(--ink); }
+.chip.is-on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.toolbar__right { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; }
+.check { display: inline-flex; align-items: center; gap: 10px; font: 500 11.5px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; cursor: pointer; min-height: 44px; }
+.check input { appearance: none; width: 18px; height: 18px; border: 1px solid var(--mute); display: grid; place-items: center; margin: 0; cursor: pointer; }
+.check input:checked { background: var(--ink); border-color: var(--ink); }
+.check input:checked::after { content: ""; width: 8px; height: 4px; border-left: 2px solid var(--bg); border-bottom: 2px solid var(--bg); transform: translateY(-1px) rotate(-45deg); }
+.select select { appearance: none; background: var(--carbon) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%23f3f3f0' stroke-width='1.5'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 14px center; border: 1px solid var(--line); font: 500 11.5px var(--font-mono); letter-spacing: .08em; padding: 12px 38px 12px 14px; min-height: 44px; }
+.count { font: 500 11px var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--mute); padding-block: 18px 22px; }
+
+.colls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (min-width: 900px) { .colls { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; } }
+.coll { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; background: var(--studio); isolation: isolate; }
+.coll img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
+.coll::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,0) 60%); }
+.coll__meta { position: absolute; left: 16px; right: 16px; bottom: 16px; z-index: 2; display: flex; flex-direction: column; gap: 8px; }
+.coll__name { font-size: clamp(1.3rem, 3vw, 2.2rem); }
+@media (hover: hover) { .coll:hover img { transform: scale(1.04); } }
+
+.prose { max-width: 70ch; padding-bottom: 80px; color: var(--mute); font-size: 1.05rem; display: flex; flex-direction: column; gap: 16px; }
+
+/* ---------- Ficha de producto ---------- */
+.pdp { padding-top: 20px; }
+.crumbs { display: flex; flex-wrap: wrap; gap: 8px; font: 500 11px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--mute); padding-bottom: 18px; }
+.crumbs a:hover { color: var(--ink); }
+.crumbs [aria-current] { color: var(--ink); }
+.pdp__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
+@media (min-width: 960px) { .pdp__grid { grid-template-columns: minmax(0, 1.35fr) minmax(0, .8fr); gap: clamp(32px, 5vw, 80px); align-items: start; } }
+.pdp__gallery { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: calc(var(--gut) * -1); padding-inline: var(--gut); }
+.pdp__gallery::-webkit-scrollbar { display: none; }
+.pdp__shot { position: relative; flex: 0 0 88%; scroll-snap-align: center; aspect-ratio: 4 / 5; background: var(--studio); cursor: zoom-in; overflow: hidden; }
+.pdp__shot img { width: 100%; height: 100%; object-fit: cover; }
+.pdp__zoomhint { position: absolute; right: 10px; bottom: 10px; width: 38px; height: 38px; display: grid; place-items: center; background: rgba(10,10,11,.78); color: var(--ink); }
+.pdp__zoomhint .icon { width: 18px; height: 18px; }
+@media (min-width: 960px) {
+  .pdp__gallery { flex-direction: column; overflow: visible; margin-inline: 0; padding-inline: 0; scroll-snap-type: none; }
+  .pdp__shot { flex: none; width: 100%; }
+}
+.pdp__info { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+@media (min-width: 960px) { .pdp__info { position: sticky; top: calc(var(--header-h) + env(safe-area-inset-top, 0px) + 24px); } }
+.pdp__name { font-size: clamp(1.9rem, 4.2vw, 3.2rem); line-height: .95; text-wrap: balance; }
+.pdp__price .price { font-size: 1.15rem; }
+.pdp__desc { color: var(--mute); max-width: 46ch; }
+.pdp__row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.sizes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.size { position: relative; min-height: 52px; border: 1px solid var(--line); font: 500 13px var(--font-mono); letter-spacing: .08em; transition: background .2s, color .2s, border-color .2s; }
+.size:hover:not(:disabled) { border-color: var(--ink); }
+.size[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.size:disabled { color: var(--mute); opacity: .45; text-decoration: line-through; cursor: not-allowed; }
+.size__left { position: absolute; top: 4px; right: 6px; font-size: 9.5px; color: var(--orange); }
+.size[aria-pressed="true"] .size__left { color: #b33d00; }
+.pdp__msg { min-height: 1.4em; margin-top: 10px; font: 500 11.5px var(--font-mono); letter-spacing: .06em; color: var(--orange); }
+.shake { animation: shake .4s; }
+@keyframes shake { 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
+.pdp__buy { display: flex; gap: 10px; }
+.qty { display: inline-flex; align-items: stretch; border: 1px solid var(--line); }
+.qty button { width: 46px; display: grid; place-items: center; transition: background .2s; }
+.qty button:hover:not(:disabled) { background: var(--panel); }
+.qty button:disabled { opacity: .35; cursor: not-allowed; }
+.qty button .icon { width: 16px; height: 16px; }
+.qty output { min-width: 40px; display: grid; place-items: center; font: 500 14px var(--font-mono); }
+.qty--sm button { width: 34px; height: 34px; } .qty--sm output { min-width: 30px; font-size: 13px; }
+.pdp__ship { border: 1px solid var(--line); padding: 16px; display: flex; flex-direction: column; gap: 6px; color: var(--mute); font-size: 14px; }
+.acc { border-top: 1px solid var(--line); padding-block: 4px; }
+.acc:last-of-type { border-bottom: 1px solid var(--line); }
+.acc summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; min-height: 52px; font: 500 12px var(--font-mono); letter-spacing: .14em; text-transform: uppercase; }
+.acc summary::-webkit-details-marker { display: none; }
+.acc summary::after { content: "+"; font-size: 18px; transition: transform .3s var(--ease); }
+.acc[open] summary::after { transform: rotate(45deg); }
+.acc > p, .acc > dl { padding-bottom: 18px; color: var(--mute); }
+.specs { display: flex; flex-direction: column; gap: 10px; margin: 0; }
+.spec { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.spec:last-child { border-bottom: 0; }
+.spec dt { font: 500 11px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+.spec dd { margin: 0; text-align: right; color: var(--ink); }
+.related { padding-bottom: clamp(56px, 8vw, 120px); }
+
+/* ---------- Diálogos ---------- */
+dialog { border: 0; padding: 0; margin: 0; background: transparent; color: var(--ink); max-width: none; max-height: none; }
+dialog::backdrop { background: rgba(0, 0, 0, .74); backdrop-filter: blur(3px); }
+.dlg__in { background: var(--carbon); border: 1px solid var(--line); height: 100%; display: flex; flex-direction: column; }
+.dlg__head { display: flex; justify-content: space-between; align-items: center; padding: 6px 6px 6px 20px; border-bottom: 1px solid var(--line); min-height: 60px; }
+.dlg__title { font: 500 12px var(--font-mono); letter-spacing: .16em; text-transform: uppercase; }
+.dlg__body { padding: 20px; overflow-y: auto; flex: 1; }
+
+dialog.dlg--cart { position: fixed; inset: 0 0 0 auto; width: min(440px, 100vw); height: 100%; }
+dialog.dlg--cart .dlg__in { border-width: 0 0 0 1px; padding-bottom: env(safe-area-inset-bottom, 0px); padding-right: env(safe-area-inset-right, 0px); }
+dialog.dlg--cart[open] { animation: slideIn .3s var(--ease); }
+@keyframes slideIn { from { transform: translateX(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+dialog.dlg--menu { position: fixed; inset: 0; width: 100%; height: 100%; }
+dialog.dlg--menu .dlg__in { border: 0; background: var(--bg); padding-bottom: env(safe-area-inset-bottom, 0px); padding-top: env(safe-area-inset-top, 0px); padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px); }
+.menu__links { display: flex; flex-direction: column; padding: 12px max(var(--gut), 16px) 24px; gap: 2px; }
+.menu__links a { font-family: var(--font-display); font-style: italic; font-weight: 900; font-stretch: 112%; text-transform: uppercase; font-size: clamp(2.2rem, 11vw, 3.6rem); letter-spacing: -.02em; line-height: 1.12; padding-block: 6px; border-bottom: 1px solid var(--line); }
+.menu__links a[aria-current="page"] { color: var(--orange); }
+.menu__foot { margin-top: auto; padding: 18px max(var(--gut), 16px); }
+
+dialog.dlg--search { position: fixed; inset: 0 0 auto 0; width: 100%; max-height: 92svh; }
+dialog.dlg--search .dlg__in { border-width: 0 0 1px; padding-top: env(safe-area-inset-top, 0px); padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px); height: auto; max-height: 92svh; }
+dialog.dlg--search[open] { animation: dropIn .25s var(--ease); }
+@keyframes dropIn { from { transform: translateY(-16px); opacity: 0; } to { transform: none; opacity: 1; } }
+.search__bar { display: flex; align-items: center; gap: 8px; padding: 8px max(var(--gut), 16px); border-bottom: 1px solid var(--line); }
+.search__bar input { flex: 1; min-width: 0; height: 56px; background: transparent; border: 0; outline: 0; font-family: var(--font-display); font-style: italic; font-weight: 800; font-stretch: 108%; text-transform: uppercase; font-size: clamp(1.3rem, 4vw, 2rem); letter-spacing: -.01em; }
+.search__bar input::placeholder { color: var(--mute); opacity: .7; }
+#search-results { padding: 8px max(var(--gut), 16px) 24px; overflow-y: auto; }
+.search__hint { padding-block: 18px; color: var(--mute); font: 500 12px var(--font-mono); letter-spacing: .08em; }
+.sres { display: grid; gap: 4px; }
+.sres__item { display: grid; grid-template-columns: 64px 1fr; gap: 16px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.sres__item img { width: 64px; height: 80px; object-fit: cover; background: var(--studio); }
+.sres__item > span { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.sres__name { font-weight: 800; text-transform: uppercase; font-size: 14px; }
+@media (hover: hover) { .sres__item:hover .sres__name { text-decoration: underline; text-underline-offset: 4px; } }
+
+dialog.dlg--modal { margin: auto; width: min(520px, calc(100vw - 32px)); max-height: calc(100svh - 32px); }
+dialog.dlg--modal .dlg__in { max-height: calc(100svh - 32px); }
+dialog.dlg--modal[open] { animation: dropIn .25s var(--ease); }
+.modal__text { color: var(--mute); display: flex; flex-direction: column; gap: 14px; }
+
+dialog.dlg--lb { position: fixed; inset: 0; width: 100%; height: 100%; background: #050506; }
+.lb { height: 100%; overflow: auto; display: flex; overscroll-behavior: contain; }
+.lb img { margin: auto; max-width: 96vw; max-height: 94svh; width: auto; height: auto; cursor: zoom-in; background: var(--studio); }
+.lb.is-zoomed img { max-width: none; max-height: none; width: max(180vw, 1500px); cursor: zoom-out; }
+.lb__close { position: fixed; top: calc(10px + env(safe-area-inset-top, 0px)); right: calc(10px + env(safe-area-inset-right, 0px)); z-index: 2; background: rgba(10,10,11,.82); }
+.lb__hint { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(14px + env(safe-area-inset-bottom, 0px)); z-index: 2; background: rgba(10,10,11,.82); padding: 8px 12px; font: 500 10.5px var(--font-mono); letter-spacing: .14em; text-transform: uppercase; pointer-events: none; }
+
+.tablewrap { overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; font: 500 13px var(--font-mono); font-variant-numeric: tabular-nums; }
+.table th, .table td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.table thead th { color: var(--orange); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+.sg__note { margin-top: 16px; color: var(--mute); font-size: 13px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+/* ---------- Carrito ---------- */
+#cart-body { display: flex; flex-direction: column; min-height: 100%; }
+.cart__empty { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; padding-top: 12px; }
+.cart__lines { display: flex; flex-direction: column; }
+.cline { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 16px; padding-block: 16px; border-bottom: 1px solid var(--line); }
+.cline__img { background: var(--studio); aspect-ratio: 4 / 5; overflow: hidden; }
+.cline__img img { width: 100%; height: 100%; object-fit: cover; }
+.cline__info { display: flex; flex-direction: column; gap: 6px; min-width: 0; align-items: flex-start; }
+.cline__name { font-weight: 800; text-transform: uppercase; font-size: 13.5px; line-height: 1.2; }
+.cline__row { display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 12px; margin-block: 4px; }
+.cline__total { font: 500 13px var(--font-mono); font-variant-numeric: tabular-nums; }
+.cart__sum { margin-top: auto; padding-top: 22px; display: flex; flex-direction: column; gap: 12px; }
+.sumrow { display: flex; justify-content: space-between; font: 500 12px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--mute); }
+.sumrow--big { font-size: 15px; color: var(--ink); }
+.cart__note { color: var(--mute); font-size: 13px; }
+.checkout { display: flex; flex-direction: column; gap: 12px; }
+.checkout:empty { display: none; }
+.checkout__msg { font: 500 12px/1.5 var(--font-mono); letter-spacing: .04em; color: var(--orange); }
+.checkout__sub { color: var(--mute); font-size: 13px; }
+.checkout__text { width: 100%; background: var(--bg); border: 1px solid var(--line); padding: 12px; font: 400 12px/1.5 var(--font-mono); resize: none; color: var(--ink); }
+.checkout__btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.checkout__btns .btn { flex: 1; min-width: 140px; padding-inline: 14px; }
+
+/* ---------- Footer ---------- */
+.footer { margin-top: clamp(40px, 6vw, 80px); border-top: 1px solid var(--line); background: var(--carbon); padding-block: clamp(40px, 6vw, 80px) 0; }
+.footer__in { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 24px; }
+.footer__brand { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 14px; }
+.footer__brand img { width: clamp(200px, 40vw, 360px); height: auto; }
+.footer__col h2, .footer__news h2 { margin-bottom: 14px; }
+.footer__col ul { display: flex; flex-direction: column; gap: 10px; }
+.footer__col a { color: var(--ink); } .footer__col a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.footer__col .is-off { color: var(--mute); display: inline-flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.footer__news { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 10px; max-width: 520px; }
+.footer__news p { color: var(--mute); }
+.news__row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.news__row input { flex: 1; min-width: 190px; height: 52px; padding: 0 14px; background: var(--bg); border: 1px solid var(--line); outline: 0; }
+.news__row input:focus { border-color: var(--ink); }
+.news__msg { min-height: 1.4em; font: 500 12px/1.5 var(--font-mono); color: var(--orange) !important; }
+.footer__bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 56px; padding-block: 22px calc(22px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); color: var(--mute); font-size: 13px; }
+@media (min-width: 960px) {
+  .footer__in { grid-template-columns: 1.4fr .6fr .8fr 1.4fr; }
+  .footer__brand { grid-column: auto; } .footer__news { grid-column: auto; }
+}
+
+/* ---------- Toast ---------- */
+#toast { position: fixed; inset: auto auto calc(18px + env(safe-area-inset-bottom, 0px)) 50%; margin: 0; border: 0; transform: translateX(-50%); background: var(--ink); color: var(--bg); font: 500 12px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; padding: 12px 18px; max-width: calc(100vw - 32px); text-align: center; overflow: visible; }
+#toast:popover-open { animation: toastIn .3s var(--ease); }
+@keyframes toastIn { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translateX(-50%); } }
+
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+/* ---------- Pantalla de carga: negro con logo, 1 s y se abre ---------- */
+.loader { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; background: #000; animation: loaderOut .5s ease 1s forwards; }
+.loader img { width: min(62vw, 420px); height: auto; animation: loaderLogo .5s ease both; }
+@keyframes loaderLogo { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes loaderOut { to { opacity: 0; visibility: hidden; } }
+
+</style>
+
+<div id="loader" class="loader" aria-hidden="true"><img src="img/logo.png" alt="" width="930" height="142"></div>
+<a class="skip" href="#app">Saltar al contenido</a>
+
+<div id="devstrip" class="devstrip" hidden><p class="wrap">Catálogo de prueba · precios, stock y medidas a confirmar</p></div>
+
+<header class="header">
+  <div class="wrap header__in">
+    <a class="logo" href="#inicio" aria-label="BLACKSHOUT, inicio"><img src="img/logo.png" alt="BLACKSHOUT" width="930" height="142"></a>
+    <nav class="nav" aria-label="Principal">
+      <a href="#tienda" data-nav="tienda">SHOP</a>
+      <a href="#new-drop" data-nav="new-drop">NEW DROP</a>
+      <a href="#best-sellers" data-nav="best-sellers">BEST SELLERS</a>
+      <a href="#colecciones" data-nav="colecciones">COLLECTIONS</a>
+      <a href="#nosotros" data-nav="nosotros">ABOUT US</a>
+    </nav>
+    <div class="actions">
+      <button class="iconbtn" type="button" data-action="open-search" aria-label="Buscar"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button>
+      <button class="iconbtn" type="button" data-action="open-account" aria-label="Mi cuenta"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" aria-hidden="true"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.9-4 3.8-6 7.5-6s6.6 2 7.5 6"/></svg></button>
+      <button class="iconbtn" type="button" data-action="open-cart" aria-label="Carrito"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6.5a3 3 0 016 0V8"/></svg><span class="badge-count" data-cart-count hidden>0</span></button>
+      <button class="iconbtn menubtn" type="button" data-action="open-menu" aria-label="Abrir menú"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" aria-hidden="true"><path d="M3.5 8h17M3.5 16h17"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="app" tabindex="-1"><noscript><div class="wrap page-head"><h1 class="h1">BLACKSHOUT</h1><p class="page-head__blurb">Activá JavaScript para ver la tienda.</p></div></noscript></main>
+
+<footer id="footer" class="footer"></footer>
+
+<!-- Menú móvil -->
+<dialog id="menu" class="dlg--menu" aria-label="Menú">
+  <div class="dlg__in">
+    <div class="dlg__head"><span class="dlg__title">Menú</span>
+      <button class="iconbtn" type="button" data-action="close" aria-label="Cerrar menú"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button></div>
+    <nav class="menu__links" aria-label="Menú principal">
+      <a href="#tienda" data-nav="tienda">Shop</a>
+      <a href="#new-drop" data-nav="new-drop">New drop</a>
+      <a href="#best-sellers" data-nav="best-sellers">Best sellers</a>
+      <a href="#colecciones" data-nav="colecciones">Collections</a>
+      <a href="#nosotros" data-nav="nosotros">About us</a>
+    </nav>
+    <div class="menu__foot label">PREMIUM STREETWEAR · MADE IN ARGENTINA</div>
+  </div>
+</dialog>
+
+<!-- Búsqueda -->
+<dialog id="search" class="dlg--search" aria-label="Buscar productos">
+  <div class="dlg__in">
+    <form id="search-form" class="search__bar" role="search" autocomplete="off">
+      <label class="sr-only" for="search-input">Buscar</label>
+      <input id="search-input" type="search" placeholder="Buscar" enterkeyhint="search">
+      <button class="iconbtn" type="button" data-action="close" aria-label="Cerrar búsqueda"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+    </form>
+    <div id="search-results" aria-live="polite"></div>
+  </div>
+</dialog>
+
+<!-- Carrito -->
+<dialog id="cart" class="dlg--cart" aria-labelledby="cart-title">
+  <div class="dlg__in">
+    <div class="dlg__head"><h2 class="dlg__title" id="cart-title">CARRITO (0)</h2>
+      <button class="iconbtn" type="button" data-action="close" aria-label="Cerrar carrito"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button></div>
+    <div class="dlg__body" id="cart-body"></div>
+  </div>
+</dialog>
+
+<!-- Mi cuenta -->
+<dialog id="account" class="dlg--modal" aria-labelledby="account-title">
+  <div class="dlg__in">
+    <div class="dlg__head"><h2 class="dlg__title" id="account-title">MI CUENTA</h2>
+      <button class="iconbtn" type="button" data-action="close" aria-label="Cerrar"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button></div>
+    <div class="dlg__body modal__text">
+      <p class="h3">Las cuentas de cliente todavía no están disponibles.</p>
+      <p>Podés comprar sin registrarte. Cuando se conecte el sistema de usuarios vas a poder ver tus pedidos desde acá.</p>
+    </div>
+  </div>
+</dialog>
+
+<!-- Guía de talles -->
+<dialog id="sizeguide" class="dlg--modal" aria-labelledby="sg-title">
+  <div class="dlg__in">
+    <div class="dlg__head"><h2 class="dlg__title" id="sg-title">GUÍA DE TALLES</h2>
+      <button class="iconbtn" type="button" data-action="close" aria-label="Cerrar"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button></div>
+    <div class="dlg__body" id="sg-body"></div>
+  </div>
+</dialog>
+
+<!-- Zoom de imagen -->
+<dialog id="lightbox" class="dlg--lb" aria-label="Imagen ampliada">
+  <button class="iconbtn lb__close" type="button" data-action="close" aria-label="Cerrar imagen"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+  <div class="lb" id="lb"><img id="lb-img" alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></div>
+  <span class="lb__hint">Tocá la imagen para ampliar</span>
+</dialog>
+
+<div id="toast" popover="manual" role="status" aria-live="polite"></div>
+
+
+<script>
+/*
+ * BLACKSHOUT — configuración central de la tienda.
+ * Todo lo que cambia de un entorno a otro (contacto, pagos, envíos) vive acá.
+ * Dejá un valor vacío ('') para indicar "todavía no configurado": la tienda
+ * lo muestra como pendiente en lugar de simular que funciona.
+ */
+window.BS = window.BS || {};
+
+BS.config = {
+  brand: {
+    name: 'BLACKSHOUT',
+    short: 'BKS',
+    tagline: 'LUJO CALLEJERO',
+    origin: 'Argentina',
+    established: '2026'
+  },
+
+  locale: 'es-AR',
+  currency: 'ARS',
+
+  /* URL pública final de la tienda (para SEO: canonical, Open Graph, JSON-LD). */
+  siteUrl: '',
+
+  /*
+   * Mientras sea true se muestra una franja que avisa que precios, stock y
+   * medidas son datos de ejemplo. Poné false cuando cargues los datos reales
+   * en js/data/products.js y en sizeGuide.
+   */
+  devNotice: true,
+
+  /* Un producto entra en "Últimas unidades" si su stock total es <= a este valor. */
+  lastUnitsThreshold: 8,
+
+  /* Canales de contacto. Un valor vacío se muestra como pendiente. */
+  contact: {
+    whatsapp: '5492216993207',   // solo dígitos con código de país, ej. '5491112345678'
+    email: '',
+    instagram: '',  // URL completa del perfil
+    tiktok: ''      // URL completa del perfil
+  },
+
+  /*
+   * Pagos. provider: 'none' | 'mercadopago'.
+   * Mercado Pago necesita un backend propio que cree la preferencia de pago
+   * con el Access Token (secreto, nunca va en el navegador).
+   * Ver README.md y docs/mercadopago-preference.example.js.
+   */
+  payments: {
+    provider: 'none',
+    mercadopago: {
+      publicKey: '',          // clave pública (sí puede ir en el front)
+      checkoutEndpoint: ''    // URL de tu backend que devuelve { init_point }
+    }
+  },
+
+  /*
+   * Envíos. provider: 'none' | 'correo-argentino' | 'andreani' | 'envio-pack'
+   * Cada servicio requiere credenciales propias y un backend que cotice.
+   * Ver js/services/shipping.js.
+   */
+  shipping: {
+    provider: 'none',
+    quoteEndpoint: ''
+  },
+
+  /* Servicio que recibe el email del newsletter (POST JSON { email }). */
+  newsletterEndpoint: '',
+
+  /* Guía de talles. Valores de ejemplo: reemplazalos por las medidas reales. */
+  sizeGuide: {
+    unit: 'cm',
+    columns: ['Talle', 'Ancho', 'Largo'],
+    rows: {
+      remeras: [
+        ['S', 54, 66],
+        ['M', 56, 68],
+        ['L', 58, 70],
+        ['XL', 60, 72]
+      ],
+      bermudas: [
+        ['S', 38, 56],
+        ['M', 40, 58],
+        ['L', 42, 60],
+        ['XL', 44, 62]
+      ]
+    },
+    columnsBermudas: ['Talle', 'Cintura (relajada)', 'Largo']
+  }
+};
+
+/*
+ * BLACKSHOUT — catálogo.
+ * Para agregar un producto: sumá un objeto a BS.products y copiá sus imágenes
+ * a /img (relación 4:5, 1000 x 1250 px recomendado).
+ *
+ * IMPORTANTE: price, compareAt y stock son valores de EJEMPLO.
+ * Reemplazalos por los reales antes de publicar la tienda.
+ *
+ *  stock      unidades por talle. 0 = agotado en ese talle.
+ *  compareAt  precio anterior (tachado). null si no hay descuento.
+ *  isNew      aparece en NEW DROP.
+ *  bestSeller aparece en BEST SELLERS.
+ *  specs      null = dato pendiente (se muestra "A confirmar" mientras devNotice sea true).
+ */
+window.BS = window.BS || {};
+
+BS.categories = [
+  { id: 'remeras',    label: 'Remeras',    image: 'img/chaleco-negro-1.webp' },
+  { id: 'buzos',      label: 'Buzos',      image: null },
+  { id: 'camperas',   label: 'Camperas',   image: null },
+  { id: 'pantalones', label: 'Pantalones', image: null },
+  { id: 'bermudas',   label: 'Bermudas',   image: 'img/bermuda-negra-1.webp' },
+  { id: 'accesorios', label: 'Accesorios', image: null }
+];
+
+BS.collections = [
+  { id: 'chaleco', label: 'Chaleco', blurb: 'El chaleco táctico en semitono con el parche BSHOUT.', image: 'img/chaleco-negro-2.webp' },
+  { id: 'bs-oval', label: 'BS Oval', blurb: 'El isologo BS cromado, edición World Wide 003.', image: 'img/bs-negra-2.webp' },
+  { id: 'worldwide', label: 'Worldwide', blurb: 'Logotipo BSHOUT, EST. 2026. Base de la marca.', image: 'img/logo-negra-1.webp' },
+  { id: 'secret-society', label: 'Secret Society', blurb: 'Iconografía clásica, estética underground.', image: 'img/secret-society-2.webp' }
+];
+
+BS.products = [
+  {
+    id: 'chaleco-negro', name: 'Chaleco Tee Negra', category: 'remeras', collection: 'chaleco',
+    price: 38000, compareAt: null, color: 'Negro',
+    images: ['img/chaleco-negro-1.webp', 'img/chaleco-negro-2.webp'],
+    stock: { S: 6, M: 9, L: 7, XL: 4 },
+    isNew: true, bestSeller: false,
+    description: 'Remera negra con estampa de chaleco táctico en semitono y el parche BSHOUT sobre el pecho. Estampa DTF de 38 x 46 cm.',
+    specs: { fit: null, estampa: 'DTF en semitono, 38 x 46 cm', composicion: null }
+  },
+  {
+    id: 'chaleco-rosa', name: 'Chaleco Tee Crema Rosa', category: 'remeras', collection: 'chaleco',
+    price: 38000, compareAt: null, color: 'Crema / Rosa',
+    images: ['img/chaleco-rosa-1.webp', 'img/chaleco-rosa-2.webp'],
+    stock: { S: 3, M: 2, L: 1, XL: 0 },
+    isNew: true, bestSeller: false,
+    description: 'La estampa del chaleco BSHOUT en rosa sobre remera crema.',
+    specs: { fit: null, estampa: 'DTF', composicion: null }
+  },
+  {
+    id: 'chaleco-celeste', name: 'Chaleco Tee Crema Celeste', category: 'remeras', collection: 'chaleco',
+    price: 38000, compareAt: null, color: 'Crema / Celeste',
+    images: ['img/chaleco-celeste-1.webp', 'img/chaleco-celeste-2.webp'],
+    stock: { S: 0, M: 0, L: 0, XL: 0 },
+    isNew: true, bestSeller: false,
+    description: 'La estampa del chaleco BSHOUT en celeste sobre remera crema.',
+    specs: { fit: null, estampa: 'DTF', composicion: null }
+  },
+  {
+    id: 'bs-crema', name: 'BS Oval Tee Crema', category: 'remeras', collection: 'bs-oval',
+    price: 36000, compareAt: null, color: 'Crema',
+    images: ['img/bs-crema-1.webp', 'img/bs-crema-2.webp'],
+    stock: { S: 2, M: 3, L: 1, XL: 1 },
+    isNew: false, bestSeller: false,
+    description: 'Isologo BS cromado en rosa con la leyenda World Wide / 003, Based in ARG.',
+    specs: { fit: null, estampa: 'DTF', composicion: null }
+  },
+  {
+    id: 'bs-negra', name: 'BS Oval Tee Negra', category: 'remeras', collection: 'bs-oval',
+    price: 36000, compareAt: null, color: 'Negro',
+    images: ['img/bs-negra-1.webp', 'img/bs-negra-2.webp'],
+    stock: { S: 8, M: 12, L: 9, XL: 6 },
+    isNew: false, bestSeller: true,
+    description: 'Isologo BS cromado en rosa sobre remera negra, con la leyenda World Wide / 003, Based in ARG.',
+    specs: { fit: null, estampa: 'DTF', composicion: null }
+  },
+  {
+    id: 'secret-society', name: 'Secret Society Tee', category: 'remeras', collection: 'secret-society',
+    price: 42000, compareAt: null, color: 'Negro',
+    images: ['img/secret-society-1.webp', 'img/secret-society-2.webp'],
+    stock: { S: 2, M: 3, L: 2, XL: 1 },
+    isNew: true, bestSeller: false,
+    description: 'Estampa Black Shout Secret Society sobre remera negra, con estrellas plateadas y la leyenda Made in Arg.',
+    specs: { fit: null, estampa: 'DTF', composicion: null }
+  },
+  {
+    id: 'logo-negra', name: 'BSHOUT Logo Tee Negra', category: 'remeras', collection: 'worldwide',
+    price: 34000, compareAt: null, color: 'Negro lavado',
+    images: ['img/logo-negra-1.webp', 'img/logo-negra-2.webp'],
+    stock: { S: 10, M: 14, L: 12, XL: 8 },
+    isNew: false, bestSeller: true,
+    description: 'Logotipo BSHOUT en el frente, con EST.2026 y Worldwide.',
+    specs: { fit: 'Boxy', estampa: 'DTF', composicion: null }
+  },
+  {
+    id: 'logo-blanca', name: 'BSHOUT Logo Tee Blanca', category: 'remeras', collection: 'worldwide',
+    price: 34000, compareAt: null, color: 'Blanco',
+    images: ['img/logo-blanca-1.webp', 'img/logo-blanca-2.webp'],
+    stock: { S: 9, M: 11, L: 6, XL: 5 },
+    isNew: false, bestSeller: true,
+    description: 'Logotipo BSHOUT en negro sobre remera blanca, con EST.2026 y Worldwide.',
+    specs: { fit: 'Boxy', estampa: 'DTF', composicion: null }
+  },
+  {
+    id: 'worldwide-negra', name: 'Worldwide Tee Negra', category: 'remeras', collection: 'worldwide',
+    price: 34000, compareAt: null, color: 'Negro',
+    images: ['img/worldwide-negra-1.webp', 'img/worldwide-negra-2.webp'],
+    stock: { S: 7, M: 10, L: 8, XL: 5 },
+    isNew: false, bestSeller: true,
+    description: 'Remera negra con Worldwide EST. 2026 de un lado y el logotipo BSHOUT del otro, en el pecho.',
+    specs: { fit: 'Oversize', estampa: 'DTF', composicion: null }
+  },
+  {
+    id: 'bermuda-negra', name: 'Bermuda BSHOUT Negra', category: 'bermudas', collection: 'worldwide',
+    price: 52000, compareAt: null, color: 'Negro',
+    images: ['img/bermuda-negra-1.webp', 'img/bermuda-negra-2.webp'],
+    stock: { S: 6, M: 8, L: 7, XL: 4 },
+    isNew: false, bestSeller: true,
+    description: 'Bermuda baggy con cordón y logotipo BSHOUT sobre el muslo.',
+    specs: { fit: 'Baggy', estampa: 'DTF', composicion: null }
+  }
+];
+
+BS.sizes = ['S', 'M', 'L', 'XL'];
+
+/*
+ * Textos de las páginas informativas del footer.
+ * Son decisiones comerciales de la marca: completá cada sección con las
+ * condiciones reales. Mientras estén vacías se muestra "A definir".
+ */
+BS.pages = {
+  faq:       { title: 'Preguntas frecuentes',            body: [] },
+  cambios:   { title: 'Cambios y devoluciones',          body: [] },
+  envios:    { title: 'Envíos',                          body: [] },
+  pagos:     { title: 'Medios de pago',                  body: [] },
+  contacto:  { title: 'Contacto',                        body: ['Escribinos por WhatsApp al +54 9 221 699-3207.'] }
+};
+
+/* Texto corto de envíos que se muestra en la ficha de producto. Vacío = pendiente. */
+BS.shippingNote = '';
+
+/*
+ * BLACKSHOUT — lógica de tienda: catálogo, stock, descuentos y carrito.
+ * No toca el DOM; la interfaz se suscribe con BS.cart.subscribe().
+ */
+(function () {
+  var BS = window.BS;
+  var cfg = BS.config;
+
+  /* ---------- Formato ---------- */
+  var nf = new Intl.NumberFormat(cfg.locale, {
+    style: 'currency', currency: cfg.currency, maximumFractionDigits: 0
+  });
+  BS.money = function (n) { return nf.format(n); };
+
+  /* ---------- Catálogo ---------- */
+  var byId = {}, bySlug = {};
+  BS.products.forEach(function (p) { byId[p.id] = p; bySlug[p.id] = p; });
+
+  BS.catalog = {
+    get: function (id) { return byId[id] || null; },
+    all: function () { return BS.products.slice(); },
+    totalStock: function (p) {
+      return BS.sizes.reduce(function (t, s) { return t + (p.stock[s] || 0); }, 0);
+    },
+    sizeStock: function (p, size) { return p.stock[size] || 0; },
+    soldOut: function (p) { return BS.catalog.totalStock(p) === 0; },
+    lastUnits: function (p) {
+      var t = BS.catalog.totalStock(p);
+      return t > 0 && t <= cfg.lastUnitsThreshold;
+    },
+    discount: function (p) {
+      if (!p.compareAt || p.compareAt <= p.price) return 0;
+      return Math.round((1 - p.price / p.compareAt) * 100);
+    },
+    search: function (q) {
+      q = norm(q);
+      if (!q) return [];
+      var parts = q.split(/\s+/);
+      return BS.products.filter(function (p) {
+        var hay = norm([p.name, p.category, p.collection, p.color, p.description].join(' '));
+        return parts.every(function (w) { return hay.indexOf(w) !== -1; });
+      });
+    },
+    query: function (opts) {
+      opts = opts || {};
+      var list = BS.products.filter(function (p) {
+        if (opts.category && p.category !== opts.category) return false;
+        if (opts.collection && p.collection !== opts.collection) return false;
+        if (opts.isNew && !p.isNew) return false;
+        if (opts.bestSeller && !p.bestSeller) return false;
+        if (opts.lastUnits && !BS.catalog.lastUnits(p)) return false;
+        if (opts.onlyAvailable && BS.catalog.soldOut(p)) return false;
+        return true;
+      });
+      var order = BS.products.indexOf.bind(BS.products);
+      if (opts.sort === 'price-asc') list.sort(function (a, b) { return a.price - b.price; });
+      else if (opts.sort === 'price-desc') list.sort(function (a, b) { return b.price - a.price; });
+      else list.sort(function (a, b) {
+        /* Disponibles primero, agotados al final; dentro, orden del catálogo. */
+        var sa = BS.catalog.soldOut(a) ? 1 : 0, sb = BS.catalog.soldOut(b) ? 1 : 0;
+        return sa - sb || order(a) - order(b);
+      });
+      return list;
+    },
+    related: function (p, n) {
+      var rest = BS.products.filter(function (x) { return x.id !== p.id; });
+      var score = function (x) { return (x.collection === p.collection ? 2 : 0) + (x.category === p.category ? 1 : 0) - (BS.catalog.soldOut(x) ? 5 : 0); };
+      rest.sort(function (a, b) { return score(b) - score(a); });
+      return rest.slice(0, n || 4);
+    }
+  };
+
+  function norm(s) {
+    return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim();
+  }
+  BS.norm = norm;
+
+  /* ---------- Carrito ---------- */
+  var KEY = 'bs.cart.v1';
+  var lines = [];
+  var listeners = [];
+
+  function load() {
+    try {
+      var raw = window.localStorage.getItem(KEY);
+      var parsed = raw ? JSON.parse(raw) : [];
+      if (Array.isArray(parsed)) {
+        lines = parsed.filter(function (l) {
+          var p = byId[l.id];
+          return p && BS.sizes.indexOf(l.size) !== -1 && l.qty > 0;
+        }).map(function (l) {
+          var max = byId[l.id].stock[l.size] || 0;
+          return { id: l.id, size: l.size, qty: Math.min(l.qty, max) };
+        }).filter(function (l) { return l.qty > 0; });
+      }
+    } catch (e) { lines = []; }
+  }
+  function save() {
+    try { window.localStorage.setItem(KEY, JSON.stringify(lines)); } catch (e) { /* sin persistencia */ }
+  }
+  function emit() { save(); listeners.forEach(function (fn) { fn(); }); }
+  function find(id, size) {
+    for (var i = 0; i < lines.length; i++) if (lines[i].id === id && lines[i].size === size) return lines[i];
+    return null;
+  }
+
+  BS.cart = {
+    subscribe: function (fn) { listeners.push(fn); },
+    lines: function () {
+      return lines.map(function (l) {
+        var p = byId[l.id];
+        return { id: l.id, size: l.size, qty: l.qty, product: p, unit: p.price, total: p.price * l.qty, max: p.stock[l.size] || 0 };
+      });
+    },
+    count: function () { return lines.reduce(function (t, l) { return t + l.qty; }, 0); },
+    subtotal: function () { return lines.reduce(function (t, l) { return t + byId[l.id].price * l.qty; }, 0); },
+    savings: function () {
+      return lines.reduce(function (t, l) {
+        var p = byId[l.id];
+        return t + (p.compareAt && p.compareAt > p.price ? (p.compareAt - p.price) * l.qty : 0);
+      }, 0);
+    },
+    add: function (id, size, qty) {
+      var p = byId[id]; qty = qty || 1;
+      if (!p) return { ok: false, msg: 'Producto no encontrado.' };
+      if (BS.sizes.indexOf(size) === -1) return { ok: false, msg: 'Elegí un talle.' };
+      var stock = p.stock[size] || 0;
+      if (stock === 0) return { ok: false, msg: 'Ese talle está agotado.' };
+      var line = find(id, size), have = line ? line.qty : 0;
+      if (have + qty > stock) {
+        var left = stock - have;
+        return { ok: false, msg: left > 0 ? 'Solo quedan ' + left + ' más en talle ' + size + '.' : 'Ya tenés todo el stock de este talle en el carrito.' };
+      }
+      if (line) line.qty += qty; else lines.push({ id: id, size: size, qty: qty });
+      emit();
+      return { ok: true, msg: 'Agregado al carrito.' };
+    },
+    setQty: function (id, size, qty) {
+      var line = find(id, size); if (!line) return { ok: false };
+      var max = byId[id].stock[size] || 0;
+      if (qty <= 0) return BS.cart.remove(id, size);
+      line.qty = Math.min(qty, max);
+      emit();
+      return { ok: qty <= max, msg: qty > max ? 'Stock máximo: ' + max + '.' : '' };
+    },
+    remove: function (id, size) {
+      lines = lines.filter(function (l) { return !(l.id === id && l.size === size); });
+      emit();
+      return { ok: true };
+    },
+    clear: function () { lines = []; emit(); }
+  };
+
+  load();
+})();
+
+/*
+ * BLACKSHOUT — capa de pagos.
+ *
+ * La interfaz solo llama a BS.payments.checkout(order). Cada proveedor es un
+ * adaptador con la misma firma, así que sumar otro (Ualá, Modo, Stripe) no
+ * obliga a tocar la interfaz.
+ *
+ *   BS.payments.checkout(order) -> Promise<{ status, message?, redirectUrl? }>
+ *   status: 'not_configured' | 'redirect' | 'error'
+ *
+ * Mercado Pago: el front NUNCA crea la preferencia (requiere el Access Token
+ * secreto). Envía el pedido a tu backend (config.payments.mercadopago
+ * .checkoutEndpoint), que crea la preferencia y devuelve { init_point }.
+ * Hay un ejemplo listo en docs/mercadopago-preference.example.js.
+ */
+(function () {
+  var BS = window.BS;
+
+  function buildOrder() {
+    var lines = BS.cart.lines();
+    return {
+      currency: BS.config.currency,
+      items: lines.map(function (l) {
+        return {
+          id: l.id,
+          title: l.product.name + ' - Talle ' + l.size,
+          size: l.size,
+          quantity: l.qty,
+          unit_price: l.unit
+        };
+      }),
+      subtotal: BS.cart.subtotal()
+    };
+  }
+
+  var providers = {
+    none: {
+      label: 'Sin proveedor',
+      checkout: function () {
+        return Promise.resolve({
+          status: 'not_configured',
+          message: 'El pago online todavía no está conectado.'
+        });
+      }
+    },
+
+    mercadopago: {
+      label: 'Mercado Pago',
+      checkout: function (order) {
+        var mp = BS.config.payments.mercadopago;
+        if (!mp.checkoutEndpoint) {
+          return Promise.resolve({
+            status: 'not_configured',
+            message: 'Falta configurar checkoutEndpoint de Mercado Pago.'
+          });
+        }
+        return fetch(mp.checkoutEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(order)
+        }).then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        }).then(function (data) {
+          if (!data || !data.init_point) throw new Error('Respuesta sin init_point');
+          return { status: 'redirect', redirectUrl: data.init_point };
+        }).catch(function () {
+          return { status: 'error', message: 'No pudimos iniciar el pago. Probá de nuevo en unos minutos.' };
+        });
+      }
+    }
+  };
+
+  BS.payments = {
+    providers: providers,
+    activeName: function () { return BS.config.payments.provider; },
+    isConfigured: function () {
+      var p = BS.config.payments;
+      return p.provider === 'mercadopago' && !!p.mercadopago.checkoutEndpoint;
+    },
+    buildOrder: buildOrder,
+    checkout: function () {
+      var provider = providers[BS.config.payments.provider] || providers.none;
+      return provider.checkout(buildOrder());
+    }
+  };
+})();
+
+/*
+ * BLACKSHOUT — capa de envíos.
+ *
+ *   BS.shipping.quote({ postalCode, items }) -> Promise<{ status, options? , message? }>
+ *   status: 'not_configured' | 'ok' | 'error'
+ *   options: [{ carrier, service, price, days }]
+ *
+ * Correo Argentino (MiCorreo), Andreani y Envío Pack tienen API propia con
+ * credenciales. Igual que en pagos, la cotización se hace en un backend
+ * (config.shipping.quoteEndpoint) que guarda las credenciales y devuelve las
+ * opciones con este formato. Hasta entonces la tienda no muestra costos de
+ * envío inventados.
+ */
+(function () {
+  var BS = window.BS;
+
+  BS.shipping = {
+    isConfigured: function () {
+      var s = BS.config.shipping;
+      return s.provider !== 'none' && !!s.quoteEndpoint;
+    },
+    quote: function (req) {
+      var s = BS.config.shipping;
+      if (!BS.shipping.isConfigured()) {
+        return Promise.resolve({ status: 'not_configured', message: 'La cotización de envíos todavía no está conectada.' });
+      }
+      return fetch(s.quoteEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ provider: s.provider, postalCode: req.postalCode, items: req.items })
+      }).then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      }).then(function (data) {
+        return { status: 'ok', options: data.options || [] };
+      }).catch(function () {
+        return { status: 'error', message: 'No pudimos cotizar el envío. Revisá el código postal.' };
+      });
+    }
+  };
+})();
+
+/*
+ * BLACKSHOUT — plantillas HTML reutilizables (tarjetas, íconos, encabezados).
+ * Todo texto que viene de datos pasa por esc().
+ */
+(function () {
+  var BS = window.BS;
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  var ICONS = {
+    search: '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',
+    user: '<circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.9-4 3.8-6 7.5-6s6.6 2 7.5 6"/>',
+    bag: '<path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6.5a3 3 0 016 0V8"/>',
+    menu: '<path d="M3.5 8h17M3.5 16h17"/>',
+    close: '<path d="M5 5l14 14M19 5L5 19"/>',
+    arrow: '<path d="M4 12h15M13 6l6 6-6 6"/>',
+    plus: '<path d="M12 5v14M5 12h14"/>',
+    minus: '<path d="M5 12h14"/>',
+    zoom: '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5M11 8.5v5M8.5 11h5"/>'
+  };
+
+  function icon(name, cls) {
+    return '<svg class="icon ' + (cls || '') + '" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" focusable="false">' + ICONS[name] + '</svg>';
+  }
+
+  function price(p, cls) {
+    var html = '<span class="price__now">' + esc(BS.money(p.price)) + '</span>';
+    if (BS.catalog.discount(p)) html += ' <s class="price__was">' + esc(BS.money(p.compareAt)) + '</s>';
+    return '<span class="price ' + (cls || '') + '">' + html + '</span>';
+  }
+
+  function badges(p) {
+    var out = [];
+    if (BS.catalog.soldOut(p)) out.push('<span class="badge badge--out">AGOTADO</span>');
+    else {
+      if (p.isNew) out.push('<span class="badge badge--new">NEW DROP</span>');
+      if (BS.catalog.lastUnits(p)) out.push('<span class="badge badge--last">ÚLTIMAS UNIDADES</span>');
+      var d = BS.catalog.discount(p);
+      if (d) out.push('<span class="badge badge--sale">-' + d + '%</span>');
+    }
+    return out.length ? '<div class="badges">' + out.join('') + '</div>' : '';
+  }
+
+  function card(p, opts) {
+    opts = opts || {};
+    var out = BS.catalog.soldOut(p);
+    var sizes = BS.sizes.map(function (s) {
+      return '<li class="' + (BS.catalog.sizeStock(p, s) ? '' : 'is-off') + '">' + esc(s) + '</li>';
+    }).join('');
+    var left = opts.showLeft && BS.catalog.lastUnits(p)
+      ? '<p class="card__left">Quedan ' + BS.catalog.totalStock(p) + '</p>' : '';
+    return '' +
+      '<article class="card' + (out ? ' is-out' : '') + '">' +
+        '<a class="card__link" href="#producto-' + esc(p.id) + '">' +
+          '<div class="card__media">' +
+            '<img class="card__img card__img--a" src="' + esc(p.images[0]) + '" alt="' + esc(p.name) + '" width="1000" height="1250" loading="lazy" decoding="async">' +
+            (p.images[1] ? '<img class="card__img card__img--b" src="' + esc(p.images[1]) + '" alt="" width="1000" height="1250" loading="lazy" decoding="async">' : '') +
+            badges(p) +
+          '</div>' +
+          '<div class="card__body">' +
+            '<h3 class="card__name">' + esc(p.name) + '</h3>' +
+            price(p, 'card__price') +
+            '<ul class="card__sizes" aria-label="Talles">' + sizes + '</ul>' +
+            left +
+          '</div>' +
+        '</a>' +
+      '</article>';
+  }
+
+  function grid(list, opts) {
+    if (!list.length) return '<p class="empty">No hay productos para mostrar con este filtro.</p>';
+    return '<div class="grid">' + list.map(function (p) { return card(p, opts); }).join('') + '</div>';
+  }
+
+  function sectionHead(label, title, href, linkText) {
+    return '' +
+      '<header class="sec-head">' +
+        '<div>' +
+          '<p class="label">' + esc(label) + '</p>' +
+          '<h2 class="h2">' + esc(title) + '</h2>' +
+        '</div>' +
+        (href ? '<a class="link-arrow" href="' + esc(href) + '">' + esc(linkText || 'VER TODO') + ' ' + icon('arrow') + '</a>' : '') +
+      '</header>';
+  }
+
+  BS.ui = BS.ui || {};
+  BS.ui.esc = esc;
+  BS.ui.icon = icon;
+  BS.ui.price = price;
+  BS.ui.badges = badges;
+  BS.ui.card = card;
+  BS.ui.grid = grid;
+  BS.ui.sectionHead = sectionHead;
+})();
+
+/*
+ * BLACKSHOUT — vistas (cada una devuelve { html, title, description, jsonLd? }).
+ */
+(function () {
+  var BS = window.BS, ui = BS.ui, esc = ui.esc, cfg = BS.config;
+  var NAME = cfg.brand.name;
+
+  function pending(text) {
+    return cfg.devNotice ? '<span class="pending">' + esc(text) + '</span>' : '';
+  }
+
+  /* ---------- Home ---------- */
+  function home() {
+    var nw = BS.catalog.query({ isNew: true }).slice(0, 4);
+    var best = BS.catalog.query({ bestSeller: true, onlyAvailable: true }).slice(0, 4);
+    var last = BS.catalog.query({ lastUnits: true });
+
+    var cats = BS.categories.map(function (c) {
+      var has = BS.products.some(function (p) { return p.category === c.id; });
+      if (has && c.image) {
+        return '<a class="cat" href="#tienda-' + esc(c.id) + '">' +
+          '<img src="' + esc(c.image) + '" alt="" width="1000" height="1250" loading="lazy" decoding="async">' +
+          '<span class="cat__name">' + esc(c.label) + '</span>' +
+          '<span class="cat__go">' + ui.icon('arrow') + '</span></a>';
+      }
+      return '<div class="cat cat--soon" aria-label="' + esc(c.label) + ', próximamente">' +
+        '<span class="cat__name">' + esc(c.label) + '</span>' +
+        '<span class="cat__soon">PRÓXIMAMENTE</span></div>';
+    }).join('');
+
+    var html = '' +
+      '<section class="hero" aria-label="Campaña">' +
+        '<div class="hero__photos">' +
+          '<img class="hero__photo hero__photo--a" src="img/campana-negra.webp" alt="Remera negra BSHOUT sobre piso de cemento" width="941" height="1671" fetchpriority="high">' +
+          '<img class="hero__photo hero__photo--b" src="img/campana-blanca.webp" alt="Remera blanca BSHOUT sobre piso de cemento" width="1145" height="1373">' +
+        '</div>' +
+        '<div class="hero__shade"></div>' +
+        '<div class="wrap hero__copy">' +
+          '<p class="label hero__kicker">EST. ' + esc(cfg.brand.established) + '</p>' +
+          '<h1 class="hero__title"><img src="img/logo.png" alt="' + esc(NAME) + '" width="930" height="142"></h1>' +
+          '<p class="hero__line">PREMIUM STREETWEAR<br>MADE IN ARGENTINA.</p>' +
+          '<a class="btn btn--solid" href="#tienda">SHOP NOW ' + ui.icon('arrow') + '</a>' +
+        '</div>' +
+      '</section>' +
+
+      '<div class="strip" aria-hidden="true"><div class="wrap strip__row">' +
+        '<span>LUJO CALLEJERO</span><span>PREMIUM STREETWEAR</span><span>MADE IN ARGENTINA</span><span>WORLDWIDE</span>' +
+      '</div></div>' +
+
+      '<section class="wrap sec" id="sec-new">' +
+        ui.sectionHead('LANZAMIENTOS', 'NEW DROP', '#new-drop') +
+        ui.grid(nw) +
+      '</section>' +
+
+      '<section class="wrap sec" aria-labelledby="cats-title">' +
+        '<header class="sec-head"><div><p class="label">COMPRAR POR</p><h2 class="h2" id="cats-title">CATEGORÍA</h2></div>' +
+        '<a class="link-arrow" href="#tienda">TODO EL SHOP ' + ui.icon('arrow') + '</a></header>' +
+        '<div class="cats">' + cats + '</div>' +
+      '</section>' +
+
+      (best.length ? '<section class="wrap sec">' +
+        ui.sectionHead('LO MÁS ELEGIDO', 'BEST SELLERS', '#best-sellers') +
+        ui.grid(best) + '</section>' : '') +
+
+      (last.length ? '<section class="wrap sec sec--last">' +
+        ui.sectionHead('STOCK LIMITADO', 'LAST UNITS', '#last-units') +
+        ui.grid(last, { showLeft: true }) + '</section>' : '') +
+
+      campaign() +
+      aboutBlock();
+
+    return {
+      html: html,
+      title: NAME + ' | Premium Streetwear · Made in Argentina',
+      description: 'BLACKSHOUT es streetwear premium hecho en Argentina. Remeras y bermudas con estética underground, cultura skate y diseño gráfico. Lujo callejero.'
+    };
+  }
+
+  function campaign() {
+    var items = [
+      { src: 'img/campana-negra.webp', ratio: '941 / 1671', cap: 'BSHOUT / EST.2026', href: '#coleccion-worldwide', alt: 'Remera negra BSHOUT, campaña' },
+      { src: 'img/chaleco-negro-2.webp', ratio: '4 / 5', cap: 'CHALECO', href: '#coleccion-chaleco', alt: 'Detalle de la estampa del chaleco' },
+      { src: 'img/campana-blanca.webp', ratio: '1145 / 1373', cap: 'WORLDWIDE', href: '#coleccion-worldwide', alt: 'Remera blanca BSHOUT, campaña' },
+      { src: 'img/secret-society-2.webp', ratio: '4 / 5', cap: 'SECRET SOCIETY', href: '#coleccion-secret-society', alt: 'Estampa Secret Society' }
+    ];
+    return '<section class="wrap sec" aria-labelledby="camp-title">' +
+      '<header class="sec-head"><div><p class="label">CAMPAIGN / EDITORIAL</p><h2 class="h2" id="camp-title">LUJO CALLEJERO</h2></div>' +
+      '<a class="link-arrow" href="#colecciones">COLECCIONES ' + ui.icon('arrow') + '</a></header>' +
+      '<div class="editorial">' + items.map(function (it, i) {
+        return '<a class="ed ed--' + (i + 1) + '" href="' + it.href + '">' +
+          '<img src="' + it.src + '" alt="' + esc(it.alt) + '" loading="lazy" decoding="async" style="aspect-ratio:' + it.ratio + '">' +
+          '<span class="ed__cap label">' + esc(it.cap) + '</span></a>';
+      }).join('') + '</div></section>';
+  }
+
+  function aboutBlock() {
+    return '<section class="wrap sec about" aria-labelledby="about-title">' +
+      '<p class="label">ABOUT BLACKSHOUT</p>' +
+      '<h2 class="about__big" id="about-title">BLACKSHOUT IS NOT JUST CLOTHING. IT’S AN <em>ESSENCE.</em></h2>' +
+      '<div class="about__cols">' +
+        '<p>Moda urbana, cultura skate, estética underground y diseño gráfico en prendas premium. Hecho en Argentina.</p>' +
+        '<a class="btn" href="#nosotros">ABOUT US ' + ui.icon('arrow') + '</a>' +
+      '</div></section>';
+  }
+
+  /* ---------- Nosotros ---------- */
+  function about() {
+    return {
+      html: '<div class="wrap page-head"><p class="label">ABOUT US</p><h1 class="h1">LUJO CALLEJERO</h1></div>' +
+        aboutBlock().replace('sec about', 'sec about about--page') + campaign(),
+      title: 'About us | ' + NAME,
+      description: 'BLACKSHOUT: moda urbana, cultura skate, estética underground y prendas premium hechas en Argentina.'
+    };
+  }
+
+  /* ---------- Shop / listados ---------- */
+  var shopState = { sort: 'default', onlyAvailable: false };
+
+  var LISTS = {
+    tienda:         { label: 'CATÁLOGO', title: 'SHOP',         query: {} },
+    'new-drop':     { label: 'LANZAMIENTOS', title: 'NEW DROP', query: { isNew: true } },
+    'best-sellers': { label: 'LO MÁS ELEGIDO', title: 'BEST SELLERS', query: { bestSeller: true } },
+    'last-units':   { label: 'STOCK LIMITADO', title: 'LAST UNITS', query: { lastUnits: true }, showLeft: true }
+  };
+
+  function listing(key, query, meta) {
+    var base = Object.assign({}, query);
+    var list = BS.catalog.query(Object.assign({}, base, { sort: shopState.sort, onlyAvailable: shopState.onlyAvailable }));
+
+    var chips = '';
+    if (meta.chips) {
+      var cur = meta.category || '';
+      chips = '<nav class="chips" aria-label="Categorías">' +
+        '<a class="chip' + (cur === '' ? ' is-on' : '') + '" href="#tienda">Todo</a>' +
+        BS.categories.filter(function (c) { return BS.products.some(function (p) { return p.category === c.id; }); })
+          .map(function (c) { return '<a class="chip' + (cur === c.id ? ' is-on' : '') + '" href="#tienda-' + esc(c.id) + '">' + esc(c.label) + '</a>'; }).join('') +
+        '</nav>';
+    }
+
+    var html = '<div class="wrap page-head"><p class="label">' + esc(meta.label) + '</p><h1 class="h1">' + esc(meta.title) + '</h1>' +
+        (meta.blurb ? '<p class="page-head__blurb">' + esc(meta.blurb) + '</p>' : '') + '</div>' +
+      '<section class="wrap">' +
+        '<div class="toolbar">' + chips +
+          '<div class="toolbar__right">' +
+            '<label class="check"><input type="checkbox" id="only-available" data-action="toggle-available"' + (shopState.onlyAvailable ? ' checked' : '') + '><span>Solo disponibles</span></label>' +
+            '<label class="select"><span class="sr-only">Ordenar</span><select id="sort-select" data-action="sort">' +
+              [['default', 'Destacados'], ['price-asc', 'Precio: menor a mayor'], ['price-desc', 'Precio: mayor a menor']].map(function (o) {
+                return '<option value="' + o[0] + '"' + (shopState.sort === o[0] ? ' selected' : '') + '>' + o[1] + '</option>';
+              }).join('') +
+            '</select></label>' +
+          '</div>' +
+        '</div>' +
+        '<p class="count" aria-live="polite">' + list.length + (list.length === 1 ? ' producto' : ' productos') + '</p>' +
+        '<div id="list-grid">' + ui.grid(list, { showLeft: meta.showLeft }) + '</div>' +
+      '</section>';
+
+    return {
+      html: html,
+      title: meta.title + ' | ' + NAME,
+      description: meta.description || ('Mirá ' + meta.title.toLowerCase() + ' de BLACKSHOUT, streetwear premium hecho en Argentina.'),
+      refresh: { key: key, query: base, meta: meta }
+    };
+  }
+
+  function shop(key) {
+    var L = LISTS[key];
+    return listing(key, L.query, { label: L.label, title: L.title, chips: key === 'tienda', category: '', showLeft: L.showLeft });
+  }
+
+  function category(id) {
+    var c = BS.categories.filter(function (x) { return x.id === id; })[0];
+    if (!c) return null;
+    return listing('cat-' + id, { category: id }, { label: 'CATEGORÍA', title: c.label.toUpperCase(), chips: true, category: id });
+  }
+
+  function collections() {
+    var html = '<div class="wrap page-head"><p class="label">COLLECTIONS</p><h1 class="h1">COLECCIONES</h1></div>' +
+      '<section class="wrap"><div class="colls">' + BS.collections.map(function (c) {
+        var n = BS.products.filter(function (p) { return p.collection === c.id; }).length;
+        return '<a class="coll" href="#coleccion-' + esc(c.id) + '">' +
+          '<img src="' + esc(c.image) + '" alt="" loading="lazy" decoding="async" width="1000" height="1250">' +
+          '<span class="coll__meta"><span class="coll__name">' + esc(c.label) + '</span>' +
+          '<span class="label">' + n + (n === 1 ? ' PIEZA' : ' PIEZAS') + '</span></span></a>';
+      }).join('') + '</div></section>';
+    return { html: html, title: 'Colecciones | ' + NAME, description: 'Colecciones de BLACKSHOUT: Chaleco, BS Oval, Worldwide y Secret Society.' };
+  }
+
+  function collection(id) {
+    var c = BS.collections.filter(function (x) { return x.id === id; })[0];
+    if (!c) return null;
+    return listing('col-' + id, { collection: id }, { label: 'COLECCIÓN', title: c.label.toUpperCase(), blurb: c.blurb, chips: false });
+  }
+
+  /* ---------- Ficha de producto ---------- */
+  function product(id) {
+    var p = BS.catalog.get(id);
+    if (!p) return null;
+    var out = BS.catalog.soldOut(p);
+    var cat = BS.categories.filter(function (c) { return c.id === p.category; })[0];
+
+    var gallery = p.images.map(function (src, i) {
+      return '<button class="pdp__shot" type="button" data-action="zoom" data-src="' + esc(src) + '" data-alt="' + esc(p.name) + ' ' + (i + 1) + '" aria-label="Ampliar imagen ' + (i + 1) + ' de ' + p.images.length + '">' +
+        '<img src="' + esc(src) + '" alt="' + esc(p.name) + (i ? ', detalle' : '') + '" width="1000" height="1250"' + (i ? ' loading="lazy"' : ' fetchpriority="high"') + '>' +
+        '<span class="pdp__zoomhint">' + ui.icon('zoom') + '</span></button>';
+    }).join('');
+
+    var sizes = BS.sizes.map(function (s) {
+      var st = BS.catalog.sizeStock(p, s);
+      return '<button type="button" class="size" data-action="size" data-size="' + esc(s) + '" aria-pressed="false"' + (st ? '' : ' disabled') + '>' +
+        esc(s) + (st && st <= 3 ? '<span class="size__left">' + st + '</span>' : '') + '</button>';
+    }).join('');
+
+    function spec(label, value) {
+      if (value) return '<div class="spec"><dt>' + esc(label) + '</dt><dd>' + esc(value) + '</dd></div>';
+      return cfg.devNotice ? '<div class="spec"><dt>' + esc(label) + '</dt><dd>' + pending('A confirmar') + '</dd></div>' : '';
+    }
+
+    var shipText = BS.shippingNote || 'El costo y el plazo de envío se informan al confirmar el pedido.';
+
+    var html = '' +
+      '<article class="wrap pdp" data-id="' + esc(p.id) + '">' +
+        '<nav class="crumbs" aria-label="Ruta"><a href="#inicio">Inicio</a><span>/</span><a href="#tienda-' + esc(p.category) + '">' + esc(cat ? cat.label : 'Shop') + '</a><span>/</span><span aria-current="page">' + esc(p.name) + '</span></nav>' +
+        '<div class="pdp__grid">' +
+          '<div class="pdp__gallery" aria-label="Galería">' + gallery + '</div>' +
+          '<div class="pdp__info">' +
+            ui.badges(p) +
+            '<h1 class="pdp__name">' + esc(p.name) + '</h1>' +
+            '<p class="pdp__price">' + ui.price(p) + '</p>' +
+            '<p class="pdp__color label">COLOR: ' + esc(p.color).toUpperCase() + '</p>' +
+            '<div class="pdp__sizes">' +
+              '<div class="pdp__row"><span class="label">TALLE</span>' +
+                '<button class="linkbtn" type="button" data-action="size-guide" data-cat="' + esc(p.category) + '">Guía de talles</button></div>' +
+              '<div class="sizes" role="group" aria-label="Elegí tu talle">' + sizes + '</div>' +
+              '<p class="pdp__msg" id="pdp-msg" role="status" aria-live="polite"></p>' +
+            '</div>' +
+            '<div class="pdp__buy">' +
+              '<div class="qty" role="group" aria-label="Cantidad">' +
+                '<button type="button" data-action="qty-dec" aria-label="Menos">' + ui.icon('minus') + '</button>' +
+                '<output id="qty-val" aria-live="polite">1</output>' +
+                '<button type="button" data-action="qty-inc" aria-label="Más">' + ui.icon('plus') + '</button>' +
+              '</div>' +
+              '<button class="btn btn--solid btn--wide" type="button" data-action="add"' + (out ? ' disabled' : '') + '>' + (out ? 'AGOTADO' : 'ADD TO CART') + '</button>' +
+            '</div>' +
+            '<div class="pdp__ship"><p class="label">ENVÍOS</p><p>' + esc(shipText) + '</p></div>' +
+            '<details class="acc" open><summary>Descripción</summary><p>' + esc(p.description) + '</p></details>' +
+            '<details class="acc"><summary>Composición y características</summary><dl class="specs">' +
+              spec('Fit', p.specs && p.specs.fit) +
+              spec('Estampa', p.specs && p.specs.estampa) +
+              spec('Composición', p.specs && p.specs.composicion) +
+              spec('Color', p.color) +
+              spec('Origen', 'Hecho en Argentina') +
+            '</dl></details>' +
+          '</div>' +
+        '</div>' +
+        '<section class="sec related" aria-labelledby="rel-title"><header class="sec-head"><div><p class="label">COMPLETÁ EL LOOK</p><h2 class="h2" id="rel-title">RELATED</h2></div></header>' +
+          ui.grid(BS.catalog.related(p, 4)) + '</section>' +
+      '</article>';
+
+    var origin = (cfg.siteUrl || '').replace(/\/$/, '');
+    var imgAbs = function (s) { return origin ? origin + '/' + s : s; };
+    var jsonLd = {
+      '@context': 'https://schema.org', '@type': 'Product',
+      name: p.name, description: p.description, color: p.color,
+      image: p.images.map(imgAbs), brand: { '@type': 'Brand', name: NAME },
+      offers: {
+        '@type': 'Offer', priceCurrency: cfg.currency, price: p.price,
+        availability: out ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
+        url: origin ? origin + '/#producto-' + p.id : undefined
+      }
+    };
+    return { html: html, title: p.name + ' | ' + NAME, description: p.description + ' ' + NAME + ', streetwear premium hecho en Argentina.', jsonLd: jsonLd, image: p.images[0] };
+  }
+
+  /* ---------- Páginas informativas ---------- */
+  function info(key) {
+    var pg = BS.pages[key];
+    if (!pg) return null;
+    var body = pg.body && pg.body.length
+      ? pg.body.map(function (t) { return '<p>' + esc(t) + '</p>'; }).join('')
+      : '<p>' + (cfg.devNotice ? pending('Contenido a definir por la marca') : 'Escribinos y te ayudamos.') + '</p>';
+    return {
+      html: '<div class="wrap page-head"><p class="label">INFORMACIÓN</p><h1 class="h1">' + esc(pg.title.toUpperCase()) + '</h1></div>' +
+        '<section class="wrap prose">' + body + '</section>',
+      title: pg.title + ' | ' + NAME,
+      description: pg.title + ' de ' + NAME + '.'
+    };
+  }
+
+  BS.views = { home: home, about: about, shop: shop, category: category, collections: collections, collection: collection, product: product, info: info, listing: listing, shopState: shopState, LISTS: LISTS, pending: pending };
+})();
+
+/*
+ * BLACKSHOUT — arranque: router por hash, overlays, carrito, SEO y eventos.
+ * Rutas (solo "#nombre", sin barras):
+ *   #inicio  #tienda  #tienda-<categoria>  #new-drop  #best-sellers  #last-units
+ *   #colecciones  #coleccion-<id>  #producto-<id>  #nosotros  #info-<clave>
+ */
+(function () {
+  var BS = window.BS, ui = BS.ui, esc = ui.esc, cfg = BS.config, V = BS.views;
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var app = $('#app');
+  var current = null; // resultado de la vista activa
+
+  /* ================= SEO ================= */
+  function setMeta(sel, attr, val) { var el = $(sel); if (el) el.setAttribute(attr, val); }
+  function applySeo(res, hash) {
+    document.title = res.title;
+    setMeta('meta[name="description"]', 'content', res.description);
+    setMeta('meta[property="og:title"]', 'content', res.title);
+    setMeta('meta[property="og:description"]', 'content', res.description);
+    var origin = (cfg.siteUrl || '').replace(/\/$/, '');
+    if (origin) {
+      setMeta('link[rel="canonical"]', 'href', origin + '/' + (hash ? '#' + hash : ''));
+      if (res.image) setMeta('meta[property="og:image"]', 'content', origin + '/' + res.image);
+    }
+    var ld = $('#ld-json');
+    if (res.jsonLd) {
+      if (!ld) { ld = document.createElement('script'); ld.type = 'application/ld+json'; ld.id = 'ld-json'; document.head.appendChild(ld); }
+      ld.textContent = JSON.stringify(res.jsonLd);
+    } else if (ld) { ld.remove(); }
+  }
+
+  /* ================= Router ================= */
+  function resolve(raw) {
+    var m;
+    if (!raw || raw === 'inicio') return V.home();
+    if (V.LISTS[raw]) return V.shop(raw);
+    if (raw === 'colecciones') return V.collections();
+    if (raw === 'nosotros') return V.about();
+    if ((m = raw.match(/^tienda-([a-z0-9-]+)$/))) return V.category(m[1]);
+    if ((m = raw.match(/^coleccion-([a-z0-9-]+)$/))) return V.collection(m[1]);
+    if ((m = raw.match(/^producto-([a-z0-9-]+)$/))) return V.product(m[1]);
+    if ((m = raw.match(/^info-([a-z0-9-]+)$/))) return V.info(m[1]);
+    return null;
+  }
+
+  function notFound() {
+    return {
+      html: '<div class="wrap page-head"><p class="label">ERROR 404</p><h1 class="h1">NO ENCONTRADO</h1>' +
+        '<p class="page-head__blurb">Esa página no existe o el producto ya no está disponible.</p>' +
+        '<p><a class="btn btn--solid" href="#tienda">IR AL SHOP ' + ui.icon('arrow') + '</a></p></div>',
+      title: 'No encontrado | ' + cfg.brand.name,
+      description: 'Página no encontrada.'
+    };
+  }
+
+  function route() {
+    var raw = location.hash.replace(/^#/, '');
+    var res = resolve(raw) || notFound();
+    current = res;
+    closeAll();
+    app.innerHTML = res.html;
+    applySeo(res, raw);
+    markNav(raw);
+    window.scrollTo(0, 0);
+    app.focus({ preventScroll: true });
+  }
+
+  function markNav(raw) {
+    $$('[data-nav]').forEach(function (a) {
+      var t = a.getAttribute('data-nav');
+      var on = t === raw || (t === 'tienda' && /^(tienda|producto)/.test(raw));
+      if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    });
+  }
+
+  /* ================= Overlays ================= */
+  var root = document.documentElement;
+  function openDlg(id) {
+    var d = $('#' + id);
+    if (!d) return;
+    closeAll(id);
+    if (!d.open) d.showModal();
+    root.classList.add('lock');
+    return d;
+  }
+  function closeAll(except) {
+    $$('dialog[open]').forEach(function (d) { if (d.id !== except) d.close(); });
+    if (!except) root.classList.remove('lock');
+  }
+  $$('dialog').forEach(function (d) {
+    d.addEventListener('click', function (e) { if (e.target === d) d.close(); });
+    d.addEventListener('close', function () { if (!$('dialog[open]')) root.classList.remove('lock'); });
+  });
+
+  var toastTimer;
+  function toast(msg) {
+    var t = $('#toast'); if (!t) return;
+    t.textContent = msg;
+    try { if (!t.matches(':popover-open')) t.showPopover(); } catch (e) { t.hidden = false; }
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { try { t.hidePopover(); } catch (e) { t.hidden = true; } }, 2600);
+  }
+
+  /* ================= Carrito ================= */
+  function orderText() {
+    var lines = BS.cart.lines();
+    var txt = 'Pedido ' + cfg.brand.name + '\n' + lines.map(function (l) {
+      return '- ' + l.product.name + ' | Talle ' + l.size + ' | x' + l.qty + ' | ' + BS.money(l.total);
+    }).join('\n') + '\nSubtotal: ' + BS.money(BS.cart.subtotal());
+    return txt;
+  }
+
+  function renderCart() {
+    var lines = BS.cart.lines(), n = BS.cart.count();
+    $$('[data-cart-count]').forEach(function (el) { el.textContent = n; el.hidden = n === 0; });
+    var body = $('#cart-body'); if (!body) return;
+    $('#cart-title').textContent = 'CARRITO (' + n + ')';
+    if (!lines.length) {
+      body.innerHTML = '<div class="cart__empty"><p class="h3">Tu carrito está vacío.</p><a class="btn btn--solid" href="#tienda" data-action="close">IR AL SHOP ' + ui.icon('arrow') + '</a></div>';
+      return;
+    }
+    var save = BS.cart.savings();
+    body.innerHTML = '<ul class="cart__lines">' + lines.map(function (l) {
+      var p = l.product;
+      return '<li class="cline">' +
+        '<a class="cline__img" href="#producto-' + esc(p.id) + '"><img src="' + esc(p.images[0]) + '" alt="" width="1000" height="1250"></a>' +
+        '<div class="cline__info">' +
+          '<a class="cline__name" href="#producto-' + esc(p.id) + '">' + esc(p.name) + '</a>' +
+          '<p class="label">TALLE ' + esc(l.size) + '</p>' +
+          '<div class="cline__row">' +
+            '<div class="qty qty--sm" role="group" aria-label="Cantidad de ' + esc(p.name) + ' talle ' + esc(l.size) + '">' +
+              '<button type="button" data-action="cart-dec" data-id="' + esc(p.id) + '" data-size="' + esc(l.size) + '" aria-label="Menos">' + ui.icon('minus') + '</button>' +
+              '<output>' + l.qty + '</output>' +
+              '<button type="button" data-action="cart-inc" data-id="' + esc(p.id) + '" data-size="' + esc(l.size) + '" aria-label="Más"' + (l.qty >= l.max ? ' disabled' : '') + '>' + ui.icon('plus') + '</button>' +
+            '</div>' +
+            '<span class="cline__total">' + esc(BS.money(l.total)) + '</span>' +
+          '</div>' +
+          '<button type="button" class="linkbtn" data-action="cart-remove" data-id="' + esc(p.id) + '" data-size="' + esc(l.size) + '">Quitar</button>' +
+        '</div></li>';
+    }).join('') + '</ul>' +
+    '<div class="cart__sum">' +
+      (save ? '<p class="sumrow"><span>Ahorrás</span><span>' + esc(BS.money(save)) + '</span></p>' : '') +
+      '<p class="sumrow sumrow--big"><span>Subtotal</span><span>' + esc(BS.money(BS.cart.subtotal())) + '</span></p>' +
+      '<p class="cart__note">El costo y el plazo de envío se informan al confirmar el pedido.</p>' +
+      '<button class="btn btn--solid btn--wide" type="button" data-action="checkout" id="checkout-btn">FINALIZAR COMPRA</button>' +
+      '<div id="checkout-out" class="checkout" role="status" aria-live="polite"></div>' +
+    '</div>';
+  }
+  BS.cart.subscribe(renderCart);
+
+  function checkout() {
+    var btn = $('#checkout-btn'), out = $('#checkout-out');
+    if (!btn || !out) return;
+    btn.disabled = true; out.innerHTML = '<p class="checkout__msg">Preparando pago…</p>';
+    BS.payments.checkout().then(function (r) {
+      btn.disabled = false;
+      if (r.status === 'redirect') { out.innerHTML = '<p class="checkout__msg">Redirigiendo a Mercado Pago…</p>'; window.location.href = r.redirectUrl; return; }
+      var wa = cfg.contact.whatsapp;
+      var waLink = wa ? 'https://wa.me/' + encodeURIComponent(wa) + '?text=' + encodeURIComponent(orderText()) : '';
+      out.innerHTML = '<p class="checkout__msg">' + esc(r.message || 'No se pudo iniciar el pago.') + '</p>' +
+        (r.status === 'not_configured'
+          ? '<p class="checkout__sub">Mientras tanto podés copiar tu pedido' + (wa ? ' o enviarlo por WhatsApp' : '') + '.</p>' +
+            '<textarea id="order-text" class="checkout__text" readonly rows="' + (BS.cart.lines().length + 3) + '">' + esc(orderText()) + '</textarea>' +
+            '<div class="checkout__btns"><button class="btn" type="button" data-action="copy-order">COPIAR PEDIDO</button>' +
+            (waLink ? '<a class="btn" href="' + esc(waLink) + '" target="_blank" rel="noopener">WHATSAPP ' + ui.icon('arrow') + '</a>' : '') + '</div>'
+          : '');
+    });
+  }
+
+  function copyOrder() {
+    var ta = $('#order-text'); if (!ta) return;
+    var done = function () { toast('Pedido copiado.'); };
+    var fallback = function () { ta.focus(); ta.select(); toast('Seleccionado: copialo con tu teclado.'); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(done, fallback); else fallback();
+  }
+
+  /* ================= Ficha de producto ================= */
+  function pdp() { return $('.pdp'); }
+  function selSize() { var b = $('.size[aria-pressed="true"]'); return b ? b.getAttribute('data-size') : null; }
+  function qtyMax(p, size) { return size ? BS.catalog.sizeStock(p, size) : 10; }
+  function setQty(v) { var o = $('#qty-val'); if (o) o.textContent = v; }
+  function pdpMsg(m, ok) { var el = $('#pdp-msg'); if (el) { el.textContent = m || ''; el.classList.toggle('is-ok', !!ok); } }
+
+  /* ================= Búsqueda ================= */
+  function renderSearch(q) {
+    var out = $('#search-results'); if (!out) return;
+    if (!q.trim()) { out.innerHTML = '<p class="search__hint">Buscá por nombre, categoría o colección.</p>'; return; }
+    var list = BS.catalog.search(q).slice(0, 8);
+    out.innerHTML = list.length ? '<ul class="sres">' + list.map(function (p) {
+      return '<li><a class="sres__item" href="#producto-' + esc(p.id) + '"><img src="' + esc(p.images[0]) + '" alt="" width="1000" height="1250">' +
+        '<span><span class="sres__name">' + esc(p.name) + '</span>' + ui.price(p) + (BS.catalog.soldOut(p) ? ' <span class="label">AGOTADO</span>' : '') + '</span></a></li>';
+    }).join('') + '</ul>' : '<p class="search__hint">Sin resultados para “' + esc(q) + '”.</p>';
+  }
+
+  /* ================= Guía de talles ================= */
+  function renderSizeGuide(catId) {
+    var g = cfg.sizeGuide, rows = g.rows[catId] || g.rows.remeras;
+    var cols = catId === 'bermudas' && g.columnsBermudas ? g.columnsBermudas : g.columns;
+    $('#sg-body').innerHTML = '<div class="tablewrap"><table class="table"><thead><tr>' + cols.map(function (c) { return '<th scope="col">' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      rows.map(function (r) { return '<tr>' + r.map(function (c, i) { return i === 0 ? '<th scope="row">' + esc(c) + '</th>' : '<td>' + esc(c) + ' ' + esc(g.unit) + '</td>'; }).join('') + '</tr>'; }).join('') +
+      '</tbody></table></div>' +
+      '<p class="sg__note">Medidas de la prenda apoyada en plano.' + (cfg.devNotice ? ' ' + V.pending('Medidas de ejemplo, reemplazar por las reales') : '') + '</p>';
+  }
+
+  /* ================= Footer ================= */
+  function link(url, label) {
+    return url ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + label + '</a>'
+      : '<span class="is-off">' + label + (cfg.devNotice ? ' ' + V.pending('configurar') : '') + '</span>';
+  }
+  function renderFooter() {
+    var c = cfg.contact;
+    $('#footer').innerHTML =
+      '<div class="wrap footer__in">' +
+        '<div class="footer__brand"><img src="img/logo.png" alt="' + esc(cfg.brand.name) + '" width="930" height="142">' +
+          '<p class="label">PREMIUM STREETWEAR · MADE IN ARGENTINA</p></div>' +
+        '<nav class="footer__col" aria-label="Seguinos"><h2 class="label">SEGUINOS</h2><ul>' +
+          '<li>' + link(c.whatsapp ? 'https://wa.me/' + c.whatsapp : '', 'WhatsApp') + '</li><li>' + link(c.instagram, 'Instagram') + '</li><li>' + link(c.tiktok, 'TikTok') + '</li></ul></nav>' +
+        '<nav class="footer__col" aria-label="Ayuda"><h2 class="label">AYUDA</h2><ul>' +
+          '<li><a href="#info-contacto">Contacto</a></li><li><a href="#info-faq">Preguntas frecuentes</a></li>' +
+          '<li><a href="#info-cambios">Cambios y devoluciones</a></li><li><a href="#info-envios">Envíos</a></li><li><a href="#info-pagos">Medios de pago</a></li></ul></nav>' +
+        '<form class="footer__news" id="newsletter-form" novalidate><h2 class="label">NEWSLETTER</h2>' +
+          '<p>Lanzamientos y reposiciones antes que nadie.</p>' +
+          '<div class="news__row"><label class="sr-only" for="news-email">Email</label>' +
+          '<input id="news-email" type="email" name="email" placeholder="tu@email.com" autocomplete="email" required>' +
+          '<button class="btn" type="submit">SUSCRIBIRME</button></div>' +
+          '<p class="news__msg" id="news-msg" role="status" aria-live="polite"></p></form>' +
+      '</div>' +
+      '<div class="wrap footer__bar"><span>© ' + new Date().getFullYear() + ' ' + esc(cfg.brand.name) + '</span><span class="label">MADE IN ARGENTINA</span></div>';
+    var strip = $('#devstrip');
+    if (strip) strip.hidden = !cfg.devNotice;
+  }
+
+  /* ================= Eventos ================= */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href^="#"]');
+    if (a && a.closest('dialog')) closeAll();
+    var el = e.target.closest('[data-action]');
+    if (!el) return;
+    var act = el.getAttribute('data-action'), id = el.getAttribute('data-id'), size = el.getAttribute('data-size');
+    switch (act) {
+      case 'open-menu': openDlg('menu'); break;
+      case 'open-search': openDlg('search'); renderSearch(''); setTimeout(function () { var i = $('#search-input'); if (i) { i.value = ''; i.focus(); } }, 30); break;
+      case 'open-cart': openDlg('cart'); break;
+      case 'open-account': openDlg('account'); break;
+      case 'close': { var d = el.closest('dialog'); if (d) d.close(); break; }
+      case 'size-guide': renderSizeGuide(el.getAttribute('data-cat')); openDlg('sizeguide'); break;
+      case 'zoom': {
+        var img = $('#lb-img'); img.src = el.getAttribute('data-src'); img.alt = el.getAttribute('data-alt') || '';
+        $('#lb').classList.remove('is-zoomed'); openDlg('lightbox'); break;
+      }
+      case 'size': {
+        if (el.disabled) break;
+        $$('.size').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+        el.setAttribute('aria-pressed', 'true');
+        var p = BS.catalog.get(pdp().getAttribute('data-id'));
+        var q = parseInt($('#qty-val').textContent, 10) || 1;
+        setQty(Math.min(q, qtyMax(p, size)));
+        pdpMsg('');
+        break;
+      }
+      case 'qty-inc': { var pp = BS.catalog.get(pdp().getAttribute('data-id')); var cur = parseInt($('#qty-val').textContent, 10) || 1; var mx = qtyMax(pp, selSize()); if (cur < mx) setQty(cur + 1); else pdpMsg(selSize() ? 'Stock máximo en talle ' + selSize() + ': ' + mx + '.' : ''); break; }
+      case 'qty-dec': { var c2 = parseInt($('#qty-val').textContent, 10) || 1; if (c2 > 1) setQty(c2 - 1); break; }
+      case 'add': {
+        var pid = pdp().getAttribute('data-id'), s = selSize();
+        if (!s) { pdpMsg('Elegí un talle para continuar.'); var g = $('.sizes'); if (g) { g.classList.remove('shake'); void g.offsetWidth; g.classList.add('shake'); } break; }
+        var r = BS.cart.add(pid, s, parseInt($('#qty-val').textContent, 10) || 1);
+        if (!r.ok) { pdpMsg(r.msg); break; }
+        pdpMsg(''); setQty(1); toast('Agregado al carrito.'); openDlg('cart'); break;
+      }
+      case 'cart-inc': { var ln = BS.cart.lines().filter(function (l) { return l.id === id && l.size === size; })[0]; if (ln) { var rr = BS.cart.setQty(id, size, ln.qty + 1); if (!rr.ok) toast(rr.msg); } break; }
+      case 'cart-dec': { var l2 = BS.cart.lines().filter(function (l) { return l.id === id && l.size === size; })[0]; if (l2) BS.cart.setQty(id, size, l2.qty - 1); break; }
+      case 'cart-remove': BS.cart.remove(id, size); break;
+      case 'checkout': checkout(); break;
+      case 'copy-order': copyOrder(); break;
+    }
+  });
+
+  document.addEventListener('change', function (e) {
+    var act = e.target.getAttribute && e.target.getAttribute('data-action');
+    if (act !== 'sort' && act !== 'toggle-available') return;
+    if (act === 'sort') V.shopState.sort = e.target.value; else V.shopState.onlyAvailable = e.target.checked;
+    if (!current || !current.refresh) return;
+    var list = BS.catalog.query(Object.assign({}, current.refresh.query, { sort: V.shopState.sort, onlyAvailable: V.shopState.onlyAvailable }));
+    $('#list-grid').innerHTML = ui.grid(list, { showLeft: current.refresh.meta.showLeft });
+    $('.count').textContent = list.length + (list.length === 1 ? ' producto' : ' productos');
+  });
+
+  document.addEventListener('input', function (e) {
+    if (e.target.id === 'search-input') renderSearch(e.target.value);
+  });
+
+  document.addEventListener('submit', function (e) {
+    if (e.target.id === 'search-form') { e.preventDefault(); var f = $('.sres__item'); if (f) f.click(); return; }
+    if (e.target.id !== 'newsletter-form') return;
+    e.preventDefault();
+    var email = $('#news-email').value.trim(), msg = $('#news-msg');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = 'Ingresá un email válido.'; return; }
+    if (!cfg.newsletterEndpoint) { msg.textContent = 'El newsletter todavía no está conectado. Seguinos en redes para enterarte de los lanzamientos.'; return; }
+    msg.textContent = 'Enviando…';
+    fetch(cfg.newsletterEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
+      .then(function (r) { if (!r.ok) throw new Error(); msg.textContent = 'Listo, ya estás suscripto.'; $('#news-email').value = ''; })
+      .catch(function () { msg.textContent = 'No pudimos suscribirte. Probá de nuevo más tarde.'; });
+  });
+
+  /* Zoom: alterna ampliación y centra en el punto tocado. */
+  var lb = $('#lb'), lbImg = $('#lb-img');
+  lbImg.addEventListener('click', function (e) {
+    var r = lbImg.getBoundingClientRect(), rx = (e.clientX - r.left) / r.width, ry = (e.clientY - r.top) / r.height;
+    var on = lb.classList.toggle('is-zoomed');
+    if (on) requestAnimationFrame(function () {
+      lb.scrollLeft = rx * lbImg.offsetWidth - lb.clientWidth / 2;
+      lb.scrollTop = ry * lbImg.offsetHeight - lb.clientHeight / 2;
+    });
+  });
+
+  /* ================= Init ================= */
+  window.addEventListener('hashchange', route);
+  renderFooter();
+  renderCart();
+  route();
+})();
+
+</script>
+
+</body></html>
