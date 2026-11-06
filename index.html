@@ -145,14 +145,37 @@ main > * { animation: rise .7s var(--ease) both; }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
 .hero { position: relative; height: clamp(540px, 148vw, 760px); overflow: hidden; background: #000; }
-.hero__photos { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr; }
-.hero__photo { width: 100%; height: 100%; object-fit: cover; object-position: 50% 52%; }
-.hero__photo--b { display: none; }
-.hero__shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.35) 45%, rgba(0,0,0,0) 70%); }
+/* Carrusel de fotos de modelos: se desliza hacia la derecha, el logo y el texto quedan fijos */
+.hero__track {
+  position: absolute; inset: 0; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none; overscroll-behavior-x: contain;
+}
+.hero__track::-webkit-scrollbar { display: none; }
+.hero__track:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+.hero__slide { flex: 0 0 100%; height: 100%; scroll-snap-align: start; scroll-snap-stop: always; }
+.hero__photo { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; user-select: none; -webkit-user-drag: none; }
+.hero__slide:nth-child(2) .hero__photo { object-position: 62% 50%; }
+.hero__slide:nth-child(3) .hero__photo { object-position: 50% 25%; }
+.hero__shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.35) 45%, rgba(0,0,0,0) 70%); }
 .hero__copy {
   position: absolute; inset: auto 0 0 0; display: flex; flex-direction: column; align-items: flex-start; gap: 18px;
-  padding-bottom: clamp(26px, 4.4vw, 60px);
+  padding-bottom: clamp(26px, 4.4vw, 60px); pointer-events: none;
 }
+.hero__copy .btn { pointer-events: auto; }
+.hero__ui { position: absolute; right: clamp(16px, 4vw, 56px); bottom: clamp(26px, 4.4vw, 60px); z-index: 3; display: flex; align-items: center; gap: 14px; }
+.hero__count { font: 500 12px var(--font-mono); letter-spacing: .2em; color: var(--ink); }
+.hero__dots { display: flex; gap: 8px; }
+.hero__dot { position: relative; width: 26px; height: 3px; padding: 0; border: 0; background: rgba(255,255,255,.35); cursor: pointer; transition: background .25s, width .25s; }
+.hero__dot::after { content: ""; position: absolute; inset: -14px -3px; }
+.hero__dot.is-on { width: 38px; background: var(--ink); }
+.hero__arrow {
+  display: none; position: absolute; top: 50%; z-index: 3; width: 52px; height: 52px; transform: translateY(-50%);
+  border: 1px solid rgba(255,255,255,.5); background: rgba(0,0,0,.35); color: var(--ink); font-size: 22px; cursor: pointer;
+  backdrop-filter: blur(4px); transition: background .2s, color .2s;
+}
+.hero__arrow:hover { background: var(--ink); color: var(--bg); }
+.hero__arrow--prev { left: 20px; }
+.hero__arrow--next { right: 20px; }
 .hero__title img { width: clamp(250px, 56vw, 860px); height: auto; }
 .hero__line { font-size: clamp(1rem, 2.1vw, 1.7rem); font-weight: 800; line-height: 1.05; letter-spacing: 0; }
 @media (min-width: 760px) {
@@ -161,8 +184,9 @@ main > * { animation: rise .7s var(--ease) both; }
   .hero__title img { width: min(100%, 700px); }
   .hero__shade { background: linear-gradient(to right, rgba(0,0,0,.8) 0%, rgba(0,0,0,.35) 40%, rgba(0,0,0,0) 60%); }
   .hero { height: clamp(560px, 58vw, 900px); }
-  .hero__photos { grid-template-columns: 1fr 1fr; }
-  .hero__photo--b { display: block; }
+  .hero__slide { flex-basis: 50%; }
+  .hero__slide:nth-child(n) .hero__photo { object-position: 50% 30%; }
+  .hero__arrow { display: block; }
 }
 
 .strip { border-block: 1px solid var(--line); }
@@ -1184,10 +1208,11 @@ BS.shippingNote = '';
     }).join('');
 
     var html = '' +
-      '<section class="hero" aria-label="Campaña">' +
-        '<div class="hero__photos">' +
-          '<img class="hero__photo hero__photo--a" src="img/campana-negra.webp" alt="Remera negra BSHOUT sobre piso de cemento" width="941" height="1671" fetchpriority="high">' +
-          '<img class="hero__photo hero__photo--b" src="img/campana-blanca.webp" alt="Remera blanca BSHOUT sobre piso de cemento" width="1145" height="1373">' +
+      '<section class="hero" aria-label="Campaña" aria-roledescription="carrusel">' +
+        '<div class="hero__track" tabindex="0">' +
+          '<div class="hero__slide"><img class="hero__photo" src="img/modelo-1.webp" alt="Modelo con remera oversize negra BSHOUT en la ciudad" width="1086" height="1448" fetchpriority="high" draggable="false"></div>' +
+          '<div class="hero__slide"><img class="hero__photo" src="img/modelo-2.webp" alt="Modelo con remera negra Black Shout Studios" width="1448" height="1086" loading="lazy" draggable="false"></div>' +
+          '<div class="hero__slide"><img class="hero__photo" src="img/modelo-3.webp" alt="Modelo con remera boxy negra BSHOUT en un ascensor" width="1086" height="1448" loading="lazy" draggable="false"></div>' +
         '</div>' +
         '<div class="hero__shade"></div>' +
         '<div class="wrap hero__copy">' +
@@ -1196,6 +1221,9 @@ BS.shippingNote = '';
           '<p class="hero__line">PREMIUM STREETWEAR<br>MADE IN ARGENTINA.</p>' +
           '<a class="btn btn--solid" href="#tienda">SHOP NOW ' + ui.icon('arrow') + '</a>' +
         '</div>' +
+        '<button class="hero__arrow hero__arrow--prev" type="button" aria-label="Foto anterior">&larr;</button>' +
+        '<button class="hero__arrow hero__arrow--next" type="button" aria-label="Foto siguiente">&rarr;</button>' +
+        '<div class="hero__ui"><span class="hero__count" aria-live="polite"></span><div class="hero__dots"></div></div>' +
       '</section>' +
 
       '<div class="strip" aria-hidden="true"><div class="wrap strip__row">' +
@@ -1765,6 +1793,70 @@ BS.shippingNote = '';
   renderFooter();
   renderCart();
   route();
+})();
+
+/* ================= Carrusel del hero (fotos de modelos) =================
+ * La portada se vuelve a dibujar cada vez que se entra al inicio, por eso este
+ * bloque vigila la página y arma el carrusel cuando aparece. */
+(function () {
+  function setup(hero) {
+    if (hero.getAttribute('data-ready')) return;
+    hero.setAttribute('data-ready', '1');
+    var track = hero.querySelector('.hero__track');
+    if (!track || !track.children.length) return;
+    var slides = track.children;
+    var dotsBox = hero.querySelector('.hero__dots');
+    var count = hero.querySelector('.hero__count');
+    var dots = [];
+    var actual = -1;
+
+    function two(n) { return (n < 10 ? '0' : '') + n; }
+    function slideW() { return slides[0].clientWidth || track.clientWidth || 1; }
+    function perView() { return Math.max(1, Math.round(track.clientWidth / slideW())); }
+    function positions() { return Math.max(1, slides.length - perView() + 1); }
+
+    function go(n) {
+      n = Math.max(0, Math.min(positions() - 1, n));
+      track.scrollTo({ left: n * slideW(), behavior: 'smooth' });
+    }
+    function mark() {
+      var n = Math.min(positions() - 1, Math.max(0, Math.round(track.scrollLeft / slideW())));
+      if (n === actual) return;
+      actual = n;
+      for (var i = 0; i < dots.length; i++) dots[i].classList.toggle('is-on', i === n);
+      count.textContent = two(n + 1) + ' / ' + two(positions());
+    }
+    function build() {
+      dotsBox.innerHTML = '';
+      dots = [];
+      for (var i = 0; i < positions(); i++) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'hero__dot';
+        b.setAttribute('aria-label', 'Ir a la foto ' + (i + 1));
+        (function (n) { b.addEventListener('click', function () { go(n); }); })(i);
+        dotsBox.appendChild(b);
+        dots.push(b);
+      }
+      actual = -1;
+      mark();
+    }
+
+    track.addEventListener('scroll', mark, { passive: true });
+    hero.querySelector('.hero__arrow--prev').addEventListener('click', function () { go(actual <= 0 ? positions() - 1 : actual - 1); });
+    hero.querySelector('.hero__arrow--next').addEventListener('click', function () { go(actual >= positions() - 1 ? 0 : actual + 1); });
+
+    function onResize() {
+      if (!hero.isConnected) { window.removeEventListener('resize', onResize); return; }
+      build();
+    }
+    window.addEventListener('resize', onResize);
+    build();
+  }
+
+  function scan() { var h = document.querySelector('.hero'); if (h) setup(h); }
+  new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true });
+  scan();
 })();
 
 </script>
