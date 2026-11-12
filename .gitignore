@@ -1,0 +1,10 @@
+# Secretos: nunca se suben
+.env
+.env.*.local
+
+# Netlify / Node
+.netlify/
+node_modules/
+
+# Archivos de trabajo
+.mp-integrate-progress.md

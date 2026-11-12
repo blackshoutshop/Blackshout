@@ -1,0 +1,13 @@
+{
+  "name": "blackshout-tienda",
+  "private": true,
+  "type": "module",
+  "description": "Tienda BLACKSHOUT: web estática + funciones de Netlify para cobrar con Mercado Pago.",
+  "scripts": {
+    "build": "node scripts/build-catalog.mjs",
+    "test": "node --test tests/mercadopago.test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

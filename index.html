@@ -614,6 +614,15 @@ dialog.dlg--lb { position: fixed; inset: 0; width: 100%; height: 100%; backgroun
   </div>
 </dialog>
 
+<!-- Resultado del pago (al volver de Mercado Pago) -->
+<dialog id="payresult" class="dlg--modal" aria-labelledby="payresult-title">
+  <div class="dlg__in">
+    <div class="dlg__head"><h2 class="dlg__title" id="payresult-title">PAGO</h2>
+      <button class="iconbtn" type="button" data-action="close" aria-label="Cerrar"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button></div>
+    <div class="dlg__body modal__text" id="payresult-body" aria-live="polite"></div>
+  </div>
+</dialog>
+
 <!-- Mi cuenta -->
 <dialog id="account" class="dlg--modal" aria-labelledby="account-title">
   <div class="dlg__in">
@@ -699,15 +708,19 @@ BS.config = {
 
   /*
    * Pagos. provider: 'none' | 'mercadopago'.
-   * Mercado Pago necesita un backend propio que cree la preferencia de pago
-   * con el Access Token (secreto, nunca va en el navegador).
-   * Ver README.md y docs/mercadopago-preference.example.js.
+   * Con Mercado Pago el cliente paga en la página de Mercado Pago (Checkout Pro).
+   * El Access Token es secreto y NUNCA va en el navegador: vive como variable de
+   * entorno en Netlify y lo usan las funciones de la carpeta netlify/functions.
+   *   checkoutEndpoint  crea el pago y devuelve { init_point }
+   *   statusEndpoint    confirma con Mercado Pago que el pago realmente se aprobó
+   * Para volver a pedidos solo por WhatsApp: provider: 'none'.
    */
   payments: {
-    provider: 'none',
+    provider: 'mercadopago',
     mercadopago: {
-      publicKey: '',          // clave pública (sí puede ir en el front)
-      checkoutEndpoint: ''    // URL de tu backend que devuelve { init_point }
+      publicKey: '',                                // Checkout Pro no la usa
+      checkoutEndpoint: '/api/create-preference',   // función de Netlify
+      statusEndpoint: '/api/order-status'           // función de Netlify
     }
   },
 
@@ -1114,20 +1127,13 @@ BS.shippingNote = '';
 (function () {
   var BS = window.BS;
 
+  /* Al servidor solo viaja QUÉ se compra (id, talle, cantidad). Los precios se
+     calculan allá con el catálogo real: lo que diga el navegador nunca se cobra. */
   function buildOrder() {
-    var lines = BS.cart.lines();
     return {
-      currency: BS.config.currency,
-      items: lines.map(function (l) {
-        return {
-          id: l.id,
-          title: l.product.name + ' - Talle ' + l.size,
-          size: l.size,
-          quantity: l.qty,
-          unit_price: l.unit
-        };
-      }),
-      subtotal: BS.cart.subtotal()
+      items: BS.cart.lines().map(function (l) {
+        return { id: l.id, size: l.size, quantity: l.qty };
+      })
     };
   }
 
@@ -1152,18 +1158,22 @@ BS.shippingNote = '';
             message: 'Falta configurar checkoutEndpoint de Mercado Pago.'
           });
         }
+        var generic = 'No pudimos iniciar el pago online. Probá de nuevo en unos minutos.';
         return fetch(mp.checkoutEndpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(order)
         }).then(function (r) {
-          if (!r.ok) throw new Error('HTTP ' + r.status);
-          return r.json();
-        }).then(function (data) {
-          if (!data || !data.init_point) throw new Error('Respuesta sin init_point');
-          return { status: 'redirect', redirectUrl: data.init_point };
+          return r.json().catch(function () { return {}; }).then(function (data) {
+            if (r.ok && data && data.init_point) {
+              return { status: 'redirect', redirectUrl: data.init_point, reference: data.external_reference };
+            }
+            /* Un pedido inválido (producto que ya no está, etc.) trae un mensaje para el cliente. */
+            if (data && data.error === 'invalid_order' && data.message) return { status: 'error', message: data.message };
+            return { status: 'error', message: generic };
+          });
         }).catch(function () {
-          return { status: 'error', message: 'No pudimos iniciar el pago. Probá de nuevo en unos minutos.' };
+          return { status: 'error', message: generic };
         });
       }
     }
@@ -1179,8 +1189,83 @@ BS.shippingNote = '';
     buildOrder: buildOrder,
     checkout: function () {
       var provider = providers[BS.config.payments.provider] || providers.none;
-      return provider.checkout(buildOrder());
+      /* Foto del carrito antes de salir a pagar: al volver se usa para armar el
+         mensaje de WhatsApp. Solo sirve para mostrar; el cobro no depende de esto. */
+      var snapshot = BS.cart.lines().map(function (l) {
+        return { name: l.product.name, size: l.size, qty: l.qty, total: l.total };
+      });
+      var total = BS.cart.subtotal();
+      return provider.checkout(buildOrder()).then(function (r) {
+        if (r.status === 'redirect' && r.reference) BS.payments.rememberOrder(r.reference, snapshot, total);
+        return r;
+      });
     }
+  };
+
+  /* ---------- Vuelta de Mercado Pago ---------- */
+  var PENDING_KEY = 'bs.pending.v1';
+  function store() { try { return window.localStorage; } catch (e) { return null; } }
+
+  BS.payments.rememberOrder = function (reference, items, total) {
+    var s = store(); if (!s) return;
+    try { s.setItem(PENDING_KEY, JSON.stringify({ reference: reference, items: items, total: total })); } catch (e) { /* sin persistencia */ }
+  };
+  /* Devuelve el pedido guardado solo si corresponde a esta referencia. */
+  BS.payments.readOrder = function (reference) {
+    var s = store(); if (!s || !reference) return null;
+    try {
+      var o = JSON.parse(s.getItem(PENDING_KEY) || 'null');
+      return o && o.reference === reference && Array.isArray(o.items) ? o : null;
+    } catch (e) { return null; }
+  };
+  BS.payments.forgetOrder = function () {
+    var s = store(); if (!s) return;
+    try { s.removeItem(PENDING_KEY); } catch (e) { /* nada */ }
+  };
+
+  /* Interpreta la dirección a la que Mercado Pago devuelve al cliente (?mp=success|pending|failure). */
+  BS.payments.parseReturn = function (search) {
+    var q = new URLSearchParams(search || '');
+    var outcome = q.get('mp');
+    if (outcome !== 'success' && outcome !== 'pending' && outcome !== 'failure') return null;
+    return {
+      outcome: outcome,
+      paymentId: q.get('payment_id') || q.get('collection_id') || '',
+      reference: q.get('external_reference') || ''
+    };
+  };
+
+  /* La dirección de vuelta se puede escribir a mano: el estado real se le pregunta
+     a Mercado Pago a través del servidor. Resuelve { ok, payment }. */
+  BS.payments.verify = function (paymentId, reference) {
+    var mp = BS.config.payments.mercadopago;
+    if (!mp.statusEndpoint || !paymentId || !reference) return Promise.resolve({ ok: false });
+    var url = mp.statusEndpoint + '?payment_id=' + encodeURIComponent(paymentId) + '&external_reference=' + encodeURIComponent(reference);
+    return fetch(url, { headers: { Accept: 'application/json' } }).then(function (r) {
+      return r.json().then(function (data) { return r.ok && data ? { ok: true, payment: data } : { ok: false }; });
+    }).catch(function () { return { ok: false }; });
+  };
+
+  /* Mensaje de WhatsApp para la marca. kind: 'paid' | 'pending' | 'unverified'. */
+  BS.payments.whatsappText = function (kind, ctx) {
+    var brand = BS.config.brand.name;
+    var heads = {
+      paid: 'Hola ' + brand + '! Ya pagué mi pedido con Mercado Pago.',
+      pending: 'Hola ' + brand + '! Hice el pago de mi pedido con Mercado Pago y figura pendiente.',
+      unverified: 'Hola ' + brand + '! Pagué mi pedido con Mercado Pago pero la web no pudo confirmarlo.'
+    };
+    var out = [heads[kind] || heads.unverified, '', 'Pedido: ' + (ctx.reference || 'sin número')];
+    if (ctx.paymentId) out.push('Pago N°: ' + ctx.paymentId + (kind === 'paid' ? ' (aprobado)' : ''));
+    var order = ctx.order;
+    if (order && order.items && order.items.length) {
+      out.push('');
+      order.items.forEach(function (i) {
+        out.push('- ' + i.name + ' | Talle ' + i.size + ' | x' + i.qty + ' | ' + BS.money(i.total));
+      });
+      out.push('Total del pedido: ' + BS.money(order.total));
+    }
+    out.push('', 'Mis datos para el envío:');
+    return out.join('\n');
   };
 })();
 
@@ -1748,6 +1833,9 @@ BS.shippingNote = '';
       '\n\nQuedo atento/a para coordinar el pago y el envio.';
   }
 
+  /* true cuando el pago online con Mercado Pago está conectado. */
+  function onlinePay() { return !!(BS.payments.isConfigured && BS.payments.isConfigured()); }
+
   function renderCart() {
     var lines = BS.cart.lines(), n = BS.cart.count();
     $$('[data-cart-count]').forEach(function (el) { el.textContent = n; el.hidden = n === 0; });
@@ -1780,34 +1868,55 @@ BS.shippingNote = '';
       (save ? '<p class="sumrow"><span>Ahorrás</span><span>' + esc(BS.money(save)) + '</span></p>' : '') +
       '<p class="sumrow sumrow--big"><span>Subtotal</span><span>' + esc(BS.money(BS.cart.subtotal())) + '</span></p>' +
       '<p class="sumrow cart__promo"><span>Con 10% Off en transferencia</span><span>' + esc(BS.money(transferTotal())) + '</span></p>' +
-      '<p class="cart__note">Es un pedido por encargo: al tocar FINALIZAR COMPRA se abre WhatsApp con tu pedido para coordinar el pago y el envío.</p>' +
-      '<button class="btn btn--solid btn--wide" type="button" data-action="checkout" id="checkout-btn">FINALIZAR COMPRA</button>' +
+      '<p class="cart__note">' + (onlinePay()
+        ? 'Es un pedido por encargo: pagás online con Mercado Pago y después te llevamos a WhatsApp con tu pedido para coordinar el envío.'
+        : 'Es un pedido por encargo: al tocar FINALIZAR COMPRA se abre WhatsApp con tu pedido para coordinar el pago y el envío.') + '</p>' +
+      '<button class="btn btn--solid btn--wide" type="button" data-action="checkout" data-mp-checkout-cta="checkout-pro" id="checkout-btn">' + (onlinePay() ? 'PAGAR CON MERCADO PAGO' : 'FINALIZAR COMPRA') + '</button>' +
+      (onlinePay() && cfg.contact.whatsapp ? '<button class="btn btn--wide" type="button" data-action="checkout-wa" id="checkout-wa-btn">TRANSFERENCIA POR WHATSAPP (10% OFF)</button>' : '') +
       '<div id="checkout-out" class="checkout" role="status" aria-live="polite"></div>' +
     '</div>';
   }
   BS.cart.subscribe(renderCart);
 
+  function waLink(text) { return 'https://wa.me/' + encodeURIComponent(cfg.contact.whatsapp) + '?text=' + encodeURIComponent(text); }
+
+  /* Pedido solo por WhatsApp (transferencia con 10% off, o plan B si falla el pago online). */
+  function whatsappCheckout() {
+    var out = $('#checkout-out');
+    if (!out) return;
+    if (!cfg.contact.whatsapp) {
+      out.innerHTML = '<p class="checkout__msg">El WhatsApp de la tienda todavía no está cargado.</p>' + copyBox();
+      return;
+    }
+    var link = waLink(orderText());
+    var w = null;
+    try { w = window.open(link, '_blank', 'noopener'); } catch (e) { w = null; }
+    if (!w) { window.location.href = link; return; }
+    out.innerHTML = '<p class="checkout__msg">Se abrió WhatsApp con tu pedido. Enviá el mensaje para que lo coordinemos.</p>' +
+      '<div class="checkout__btns"><a class="btn" href="' + esc(link) + '" target="_blank" rel="noopener">ABRIR WHATSAPP ' + ui.icon('arrow') + '</a></div>';
+  }
+
+  function copyBox() {
+    return '<textarea id="order-text" class="checkout__text" readonly rows="' + (BS.cart.lines().length + 5) + '">' + esc(orderText()) + '</textarea>' +
+      '<div class="checkout__btns"><button class="btn" type="button" data-action="copy-order">COPIAR PEDIDO</button></div>';
+  }
+
   function checkout() {
     var btn = $('#checkout-btn'), out = $('#checkout-out');
     if (!btn || !out) return;
-    var wa = cfg.contact.whatsapp;
-    /* Con Mercado Pago configurado se usa el flujo de pago online. */
-    if (!(BS.payments.isConfigured && BS.payments.isConfigured()) && wa) {
-      var waLink = 'https://wa.me/' + encodeURIComponent(wa) + '?text=' + encodeURIComponent(orderText());
-      var w = null;
-      try { w = window.open(waLink, '_blank', 'noopener'); } catch (e) { w = null; }
-      if (!w) { window.location.href = waLink; return; }
-      out.innerHTML = '<p class="checkout__msg">Se abrió WhatsApp con tu pedido. Enviá el mensaje para que lo coordinemos.</p>' +
-        '<div class="checkout__btns"><a class="btn" href="' + esc(waLink) + '" target="_blank" rel="noopener">ABRIR WHATSAPP ' + ui.icon('arrow') + '</a></div>';
-      return;
-    }
+    /* Sin Mercado Pago conectado, el pedido sigue yendo por WhatsApp como antes. */
+    if (!onlinePay() && cfg.contact.whatsapp) { whatsappCheckout(); return; }
     btn.disabled = true; out.innerHTML = '<p class="checkout__msg">Preparando pago…</p>';
     BS.payments.checkout().then(function (r) {
       btn.disabled = false;
       if (r.status === 'redirect') { out.innerHTML = '<p class="checkout__msg">Redirigiendo a Mercado Pago…</p>'; window.location.href = r.redirectUrl; return; }
+      /* Si el pago online falla, el cliente no se queda sin poder comprar: queda WhatsApp. */
       out.innerHTML = '<p class="checkout__msg">' + esc(r.message || 'No se pudo iniciar el pago.') + '</p>' +
-        '<textarea id="order-text" class="checkout__text" readonly rows="' + (BS.cart.lines().length + 5) + '">' + esc(orderText()) + '</textarea>' +
-        '<div class="checkout__btns"><button class="btn" type="button" data-action="copy-order">COPIAR PEDIDO</button></div>';
+        (cfg.contact.whatsapp
+          ? '<p class="checkout__sub">Mientras tanto podés coordinar tu pedido por WhatsApp.</p>' +
+            '<div class="checkout__btns"><a class="btn" href="' + esc(waLink(orderText())) + '" target="_blank" rel="noopener">COORDINAR POR WHATSAPP ' + ui.icon('arrow') + '</a></div>'
+          : '') +
+        copyBox();
     });
   }
 
@@ -1915,6 +2024,7 @@ BS.shippingNote = '';
       case 'cart-dec': { var l2 = BS.cart.lines().filter(function (l) { return l.id === id && l.size === size; })[0]; if (l2) BS.cart.setQty(id, size, l2.qty - 1); break; }
       case 'cart-remove': BS.cart.remove(id, size); break;
       case 'checkout': checkout(); break;
+      case 'checkout-wa': whatsappCheckout(); break;
       case 'copy-order': copyOrder(); break;
     }
   });
@@ -1957,11 +2067,100 @@ BS.shippingNote = '';
     });
   });
 
+  /* ================= Vuelta de Mercado Pago ================= */
+  var REDIRECT_SECONDS = 6;
+  var redirectTimer = null;
+  function stopRedirect() { if (redirectTimer) { clearInterval(redirectTimer); redirectTimer = null; } }
+
+  function showPayResult(title, html) {
+    stopRedirect();
+    $('#payresult-title').textContent = title;
+    $('#payresult-body').innerHTML = html;
+    openDlg('payresult');
+  }
+
+  function waButton(link, label) {
+    return '<div class="checkout__btns"><a class="btn btn--solid" id="pay-wa" href="' + esc(link) + '" rel="noopener">' + label + ' ' + ui.icon('arrow') + '</a></div>';
+  }
+
+  /* Pago aprobado: cuenta regresiva y lleva solo a WhatsApp con el pedido ya armado. */
+  function autoToWhatsapp(link) {
+    var n = REDIRECT_SECONDS, note = $('#pay-count');
+    redirectTimer = setInterval(function () {
+      n -= 1;
+      if (n <= 0) { stopRedirect(); window.location.href = link; return; }
+      if (note) note.textContent = 'Te llevamos a WhatsApp en ' + n + ' segundos…';
+    }, 1000);
+  }
+
+  function handleReturn() {
+    var ret = BS.payments.parseReturn(window.location.search);
+    if (!ret) return;
+    /* Se limpia la dirección para que al recargar no se repita el aviso. */
+    try { history.replaceState(null, '', window.location.pathname + window.location.hash); } catch (e) { /* nada */ }
+
+    var wa = cfg.contact.whatsapp;
+    var order = BS.payments.readOrder(ret.reference);
+    var ctx = { reference: ret.reference, paymentId: ret.paymentId, order: order };
+    var link = function (kind) { return wa ? waLink(BS.payments.whatsappText(kind, ctx)) : ''; };
+
+    showPayResult('PAGO', '<p class="h3">Confirmando tu pago…</p><p>Estamos verificando con Mercado Pago. No cierres esta ventana.</p>');
+
+    BS.payments.verify(ret.paymentId, ret.reference).then(function (v) {
+      var st = v.ok ? v.payment.status : '';
+
+      if (st === 'approved') {
+        BS.cart.clear(); BS.payments.forgetOrder();
+        ctx.paymentId = String(v.payment.payment_id);
+        var l = link('paid');
+        showPayResult('PAGO APROBADO',
+          '<p class="h3">¡Listo! Recibimos tu pago.</p>' +
+          '<p>Pedido <strong>' + esc(ret.reference) + '</strong>' + (v.payment.total ? ' por ' + esc(BS.money(v.payment.total)) : '') + '.</p>' +
+          (l ? '<p id="pay-count" class="checkout__msg">Te llevamos a WhatsApp en ' + REDIRECT_SECONDS + ' segundos…</p>' +
+               '<p class="checkout__sub">Te va a abrir el chat con tu pedido y el número de pago. Solo enviá el mensaje y sumá tus datos de envío.</p>' + waButton(l, 'IR A WHATSAPP')
+             : '<p>Te vamos a contactar para coordinar el envío.</p>'));
+        if (l) autoToWhatsapp(l);
+        return;
+      }
+
+      if (st === 'in_process' || st === 'pending' || st === 'authorized') {
+        BS.cart.clear(); BS.payments.forgetOrder();
+        var lp = link('pending');
+        showPayResult('PAGO PENDIENTE',
+          '<p class="h3">Tu pago está pendiente de acreditación.</p>' +
+          '<p>Pedido <strong>' + esc(ret.reference) + '</strong>. Apenas Mercado Pago lo acredite, avisanos por WhatsApp para coordinar el envío.</p>' +
+          (lp ? waButton(lp, 'AVISAR POR WHATSAPP') : ''));
+        return;
+      }
+
+      if (st) {
+        /* rejected, cancelled, etc.: el carrito se conserva para volver a intentar. */
+        var lf = link('unverified');
+        showPayResult('PAGO NO REALIZADO',
+          '<p class="h3">No se pudo completar el pago.</p>' +
+          '<p>No se te cobró nada. Tu carrito sigue guardado: podés volver a intentarlo con otro medio de pago.</p>' +
+          '<div class="checkout__btns"><button class="btn btn--solid" type="button" data-action="open-cart">VOLVER AL CARRITO ' + ui.icon('arrow') + '</button></div>' +
+          (wa ? '<p class="checkout__sub">¿Necesitás ayuda? <a href="' + esc(waLink('Hola ' + cfg.brand.name + '! Tuve un problema para pagar mi pedido ' + ret.reference + '.')) + '" rel="noopener">Escribinos por WhatsApp</a>.</p>' : ''));
+        return;
+      }
+
+      /* No se pudo verificar: sin confirmación no se promete nada ni se redirige solo. */
+      var lu = link('unverified');
+      showPayResult('NO PUDIMOS CONFIRMAR',
+        '<p class="h3">No pudimos confirmar tu pago todavía.</p>' +
+        '<p>Si Mercado Pago te cobró, escribinos por WhatsApp con tu número de pedido <strong>' + esc(ret.reference || '') + '</strong> y lo resolvemos enseguida.</p>' +
+        (lu ? waButton(lu, 'ESCRIBIR POR WHATSAPP') : ''));
+    });
+  }
+  /* Cerrar el aviso cancela la redirección automática. */
+  $('#payresult').addEventListener('close', stopRedirect);
+
   /* ================= Init ================= */
   window.addEventListener('hashchange', route);
   renderFooter();
   renderCart();
   route();
+  handleReturn();
 })();
 
 /* ================= Carrusel del hero (fotos de modelos) =================

@@ -1,0 +1,15 @@
+# Configuración de Netlify para la tienda BLACKSHOUT.
+# La web sigue siendo el mismo index.html; lo nuevo son las funciones del servidor
+# que cobran con Mercado Pago (carpeta netlify/functions).
+
+[build]
+  publish = "."
+  # Antes de publicar, regenera el catálogo de precios del servidor desde index.html.
+  command = "node scripts/build-catalog.mjs"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[functions]
+  node_bundler = "esbuild"
