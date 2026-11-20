@@ -2131,14 +2131,33 @@ BS.shippingNote = '';
 
   /* ================= Carrito ================= */
   function transferTotal() { return Math.round(BS.cart.subtotal() * 0.9); }
-  function orderText() {
+  /* Comanda: número único = fecha y hora (hora de Argentina) + 3 caracteres al azar
+   * sin símbolos ambiguos (sin 0/O ni 1/I). Ej: BS-261120-094215-K7M. */
+  function newOrderNumber() {
+    var d = new Date(), p2 = function (n) { return (n < 10 ? '0' : '') + n; };
+    var abc = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', rnd = '';
+    for (var i = 0; i < 3; i++) rnd += abc.charAt(Math.floor(Math.random() * abc.length));
+    return 'BS-' + String(d.getFullYear()).slice(2) + p2(d.getMonth() + 1) + p2(d.getDate()) +
+      '-' + p2(d.getHours()) + p2(d.getMinutes()) + p2(d.getSeconds()) + '-' + rnd;
+  }
+  /* Arma la comanda con los datos reales del carrito. Devuelve '' si no hay productos. */
+  function buildComanda(number) {
     var lines = BS.cart.lines();
-    return 'Hola ' + cfg.brand.name + '! Quiero hacer este pedido:\n' + lines.map(function (l) {
-      return '- ' + l.product.name + ' | Talle ' + l.size + ' | x' + l.qty + ' | ' + BS.money(l.total);
-    }).join('\n') +
-      '\nSubtotal: ' + BS.money(BS.cart.subtotal()) +
-      '\nCon 10% off en transferencia: ' + BS.money(transferTotal()) +
-      '\n\nQuedo atento/a para coordinar el pago y el envio.';
+    if (!lines.length) return '';
+    var SEP = '━━━━━━━━━━━━━━━━━━';
+    var blocks = lines.map(function (l, i) {
+      return '[PRODUCTO ' + (i < 9 ? '0' : '') + (i + 1) + ']\n' +
+        'Prenda: ' + l.product.name + '\n' +
+        'Color: ' + l.product.color + '\n' +
+        'Talle: ' + l.size + '\n' +
+        'Cantidad: ' + l.qty;
+    });
+    return SEP + '\nBLACKSHOUT®\nNUEVO PEDIDO\n' + SEP + '\n\n' +
+      'COMANDA N°: #' + number + '\n\n' +
+      'DATOS DEL CLIENTE\nNombre y apellido:\n\n' +
+      'DETALLE DEL PEDIDO\n\n' +
+      blocks.join('\n\n') + '\n\n' +
+      SEP + '\nBLACKSHOUT®\nBUILT DIFFERENT.\n' + SEP;
   }
 
   var lastCount = BS.cart.count();
@@ -2178,8 +2197,8 @@ BS.shippingNote = '';
       (save ? '<p class="sumrow"><span>Ahorrás</span><span>' + esc(BS.money(save)) + '</span></p>' : '') +
       '<p class="sumrow sumrow--big"><span>Subtotal</span><span>' + esc(BS.money(BS.cart.subtotal())) + '</span></p>' +
       '<p class="sumrow cart__promo"><span>Con 10% Off en transferencia</span><span>' + esc(BS.money(transferTotal())) + '</span></p>' +
-      '<p class="cart__note">Es un pedido por encargo: al tocar FINALIZAR COMPRA se abre WhatsApp con tu pedido para coordinar el pago y el envío.</p>' +
-      '<button class="btn btn--solid btn--wide" type="button" data-action="checkout" id="checkout-btn">FINALIZAR COMPRA</button>' +
+      '<p class="cart__note">Es un pedido por encargo: al tocar FINALIZAR PEDIDO POR WHATSAPP se abre WhatsApp con tu comanda para coordinar el pago y el envío.</p>' +
+      '<button class="btn btn--solid btn--wide" type="button" data-action="checkout" id="checkout-btn">FINALIZAR PEDIDO POR WHATSAPP</button>' +
       '<div id="checkout-out" class="checkout" role="status" aria-live="polite"></div>' +
     '</div>';
   }
@@ -2189,14 +2208,20 @@ BS.shippingNote = '';
     var btn = $('#checkout-btn'), out = $('#checkout-out');
     if (!btn || !out) return;
     var wa = cfg.contact.whatsapp;
+    /* La comanda se arma ANTES de abrir nada. Si falla, no se abre WhatsApp y el carrito queda intacto
+     * (el carrito nunca se vacía desde acá: vive en localStorage hasta que el cliente lo modifique). */
+    var num = newOrderNumber(), comanda = '';
+    try { comanda = buildComanda(num); } catch (e) { comanda = ''; }
+    if (!comanda) {
+      out.innerHTML = '<p class="checkout__msg">No pudimos armar la comanda. Tu carrito sigue guardado: probá de nuevo.</p>';
+      return;
+    }
     /* Con Mercado Pago configurado se usa el flujo de pago online. */
     if (!(BS.payments.isConfigured && BS.payments.isConfigured()) && wa) {
-      var waLink = 'https://wa.me/' + encodeURIComponent(wa) + '?text=' + encodeURIComponent(orderText());
-      var w = null;
-      try { w = window.open(waLink, '_blank', 'noopener'); } catch (e) { w = null; }
-      if (!w) { window.location.href = waLink; return; }
-      out.innerHTML = '<p class="checkout__msg">Se abrió WhatsApp con tu pedido. Enviá el mensaje para que lo coordinemos.</p>' +
+      var waLink = 'https://wa.me/' + encodeURIComponent(wa) + '?text=' + encodeURIComponent(comanda);
+      out.innerHTML = '<p class="checkout__msg">Se abrió WhatsApp con tu comanda N° #' + esc(num) + '. Completá tu nombre y apellido y enviá el mensaje.</p>' +
         '<div class="checkout__btns"><a class="btn" href="' + esc(waLink) + '" target="_blank" rel="noopener">ABRIR WHATSAPP ' + ui.icon('arrow') + '</a></div>';
+      openWhatsApp(waLink);
       return;
     }
     btn.disabled = true; out.innerHTML = '<p class="checkout__msg">Preparando pago…</p>';
@@ -2204,9 +2229,21 @@ BS.shippingNote = '';
       btn.disabled = false;
       if (r.status === 'redirect') { out.innerHTML = '<p class="checkout__msg">Redirigiendo a Mercado Pago…</p>'; window.location.href = r.redirectUrl; return; }
       out.innerHTML = '<p class="checkout__msg">' + esc(r.message || 'No se pudo iniciar el pago.') + '</p>' +
-        '<textarea id="order-text" class="checkout__text" readonly rows="' + (BS.cart.lines().length + 5) + '">' + esc(orderText()) + '</textarea>' +
+        '<textarea id="order-text" class="checkout__text" readonly rows="' + (comanda.split('\n').length + 1) + '">' + esc(comanda) + '</textarea>' +
         '<div class="checkout__btns"><button class="btn" type="button" data-action="copy-order">COPIAR PEDIDO</button></div>';
     });
+  }
+
+  /* iPhone/Safari y Android: navegación directa dentro del toque del cliente (un window.open con
+   * 'noopener' devuelve null y Safari bloquea los diferidos). En computadora: pestaña nueva y la
+   * tienda queda abierta. Si el navegador bloquea la pestaña, se navega en la misma. */
+  function openWhatsApp(url) {
+    var touch = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (touch) { window.location.href = url; return; }
+    var w = null;
+    try { w = window.open(url, '_blank'); if (w) w.opener = null; } catch (e) { w = null; }
+    if (!w) window.location.href = url;
   }
 
   function copyOrder() {
