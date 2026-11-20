@@ -621,11 +621,47 @@ dialog.dlg--lb { position: fixed; inset: 0; width: 100%; height: 100%; backgroun
 .has-snd .footer__bar { padding-bottom: calc(22px + 54px + env(safe-area-inset-bottom, 0px)); }
 .has-snd .hero__copy { padding-bottom: calc(clamp(22px, 3.6vw, 52px) + 54px + env(safe-area-inset-bottom, 0px)); }
 
+/* ---------- Centro de ayuda / FAQ (#info-faq) ---------- */
+.faq { display: grid; gap: clamp(36px, 6vw, 72px); padding-bottom: clamp(72px, 10vw, 150px); }
+.faq__head { display: flex; flex-direction: column; gap: clamp(16px, 2.4vw, 26px); }
+.faq__title { font-size: clamp(2.35rem, 10.4vw, 7.2rem); line-height: 1; }
+.faq__sub { font: 500 11px/1.6 var(--font-mono); letter-spacing: .18em; text-transform: uppercase; color: var(--mute); max-width: 34ch; }
+.faq__list { border-bottom: 1px solid var(--line); }
+.faq__item { border-top: 1px solid var(--line); transition: border-color .4s var(--ease); }
+.faq__item:hover, .faq__item.is-open { border-top-color: var(--line-2); }
+.faq__q {
+  width: 100%; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: clamp(14px, 2.4vw, 32px);
+  min-height: 72px; padding: 18px 0; text-align: left; color: var(--mute);
+  touch-action: manipulation; -webkit-appearance: none; appearance: none; transition: color .35s var(--ease);
+}
+.faq__item:hover .faq__q, .faq__item.is-open .faq__q { color: var(--ink); }
+.faq__n { font: 500 11px/1 var(--font-mono); letter-spacing: .16em; color: var(--dim); transition: color .35s var(--ease); }
+.faq__item.is-open .faq__n { color: var(--ink); }
+.faq__qt { font: 700 clamp(1rem, 3.9vw, 1.45rem)/1.18 var(--font-display); letter-spacing: -.01em; }
+.faq__ico { position: relative; width: 18px; height: 18px; flex: none; }
+.faq__ico::before, .faq__ico::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1.5px; margin-top: -.75px; background: currentColor; transition: transform .45s var(--ease-out), opacity .3s var(--ease); }
+.faq__ico::after { transform: rotate(90deg); }
+.faq__item.is-open .faq__ico::after { transform: rotate(0deg); opacity: 0; }
+.faq__item.is-open .faq__ico::before { transform: rotate(180deg); }
+.faq__a { height: 0; overflow: hidden; visibility: hidden; transition: height .5s var(--ease-out), visibility 0s linear .5s; }
+.faq__item.is-open .faq__a { visibility: visible; transition: height .5s var(--ease-out), visibility 0s; }
+.faq__a > div { padding: 0 0 28px calc(11px * 2 + clamp(14px, 2.4vw, 32px)); max-width: 68ch; color: var(--mute); font-size: 1rem; line-height: 1.65; opacity: 0; transform: translateY(-6px); transition: opacity .45s var(--ease-out) .05s, transform .5s var(--ease-out) .05s; }
+.faq__item.is-open .faq__a > div { opacity: 1; transform: none; }
+.faq__a a { color: var(--ink); border-bottom: 1px solid var(--line-2); transition: border-color .3s var(--ease); }
+.faq__a a:hover { border-bottom-color: var(--ink); }
+@media (min-width: 960px) {
+  .faq { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; gap: clamp(48px, 6vw, 110px); }
+  .faq__title { font-size: clamp(2.6rem, 4.9vw, 5.6rem); overflow-wrap: break-word; }
+  .faq__head { position: sticky; top: calc(var(--hdr) + 28px); min-width: 0; }
+  .faq__q { min-height: 84px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .marquee__track { animation: none; }
   .js .rv { opacity: 1; transform: none; }
+  .faq__a, .faq__a > div { transition: none; }
 }
 </style>
 </head>
@@ -1100,6 +1136,40 @@ BS.pages = {
   pagos:     { title: 'Medios de pago',                  body: [] },
   contacto:  { title: 'Contacto',                        body: ['Escribinos por WhatsApp al +54 9 221 699-3207.'] }
 };
+
+/*
+ * Centro de ayuda (#info-faq). Editá preguntas y respuestas acá.
+ * En las respuestas, {ig:texto} y {wa:texto} se convierten en enlaces
+ * a tu Instagram y a tu WhatsApp (BS.config.contact).
+ */
+BS.faqIntro = {
+  tag: 'BLACKSHOUT® — CENTRO DE AYUDA / 001',
+  title: 'TODO LO QUE NECESITÁS SABER.',
+  sub: 'INFORMACIÓN PARA TU EXPERIENCIA BLACKSHOUT.'
+};
+
+BS.faq = [
+  { q: '¿Cómo puedo realizar una compra?',
+    a: 'Elegí el producto que quieras, seleccioná tu talle y agregalo al carrito. Seguí los pasos para completar tu pedido y recibir las instrucciones de pago.' },
+  { q: '¿Qué medios de pago aceptan?',
+    a: 'Aceptamos transferencias bancarias y pagos mediante Mercado Pago.' },
+  { q: '¿Cuánto tarda en llegar mi pedido?',
+    a: 'Nuestros productos se confeccionan por pedido. Una vez acreditado el pago, el tiempo de producción es de 24 a 48 horas hábiles. El tiempo de envío se calcula por separado.' },
+  { q: '¿Los productos tienen stock inmediato?',
+    a: 'Trabajamos bajo modalidad de producción por pedido. Esto nos permite preparar cada prenda especialmente para cada compra.' },
+  { q: '¿Cómo puedo saber cuál es mi talle?',
+    a: 'Cada producto cuenta con una guía de talles para que puedas elegir el calce que mejor se adapte a vos. Te recomendamos revisar las medidas antes de comprar.' },
+  { q: '¿Realizan envíos a todo el país?',
+    a: 'Sí, realizamos envíos a distintas partes de Argentina. Los costos y tiempos de entrega dependen de la ubicación y del método de envío seleccionado.' },
+  { q: '¿Puedo retirar mi pedido personalmente?',
+    a: 'Consultanos por {ig:Instagram} para coordinar la disponibilidad y las opciones de retiro.' },
+  { q: '¿Puedo cambiar o devolver una prenda?',
+    a: 'Si recibiste un producto con algún defecto o tu pedido presenta un inconveniente, contactanos para evaluar el caso y encontrar una solución. Los cambios y devoluciones se gestionan conforme a la normativa vigente.' },
+  { q: '¿Cómo puedo consultar el estado de mi pedido?',
+    a: 'Podés comunicarte con nosotros por {ig:Instagram} o {wa:WhatsApp} indicando tu nombre y número de pedido.' },
+  { q: '¿Cómo puedo contactarme con BLACKSHOUT?',
+    a: 'Podés escribirnos a través de Instagram: {ig:@blackshout.clo}. Nuestro equipo te ayudará con cualquier consulta relacionada con tu compra.' }
+];
 
 /* Texto corto de envíos que se muestra en la ficha de producto. Vacío = pendiente. */
 BS.shippingNote = '';
@@ -1826,8 +1896,47 @@ BS.shippingNote = '';
     return { html: html, title: p.name + ' | ' + NAME, description: p.description + ' ' + NAME + ', streetwear premium hecho en Argentina.', jsonLd: jsonLd, image: p.images[0] };
   }
 
+  /* ---------- Centro de ayuda (FAQ) ---------- */
+  function faqText(t) {
+    var c = cfg.contact || {};
+    var hrefs = { ig: c.instagram || '', wa: c.whatsapp ? 'https://wa.me/' + c.whatsapp : '' };
+    return esc(t).replace(/\{(ig|wa):([^}]+)\}/g, function (m, k, label) {
+      return hrefs[k] ? '<a href="' + esc(hrefs[k]) + '" target="_blank" rel="noopener">' + label + '</a>' : label;
+    });
+  }
+  function faqPlain(t) { return String(t).replace(/\{(?:ig|wa):([^}]+)\}/g, '$1'); }
+
+  function faq() {
+    var intro = BS.faqIntro, items = BS.faq || [];
+    var list = items.map(function (it, i) {
+      var n = pad(i + 1), id = 'faq-' + (i + 1);
+      return '<div class="faq__item">' +
+        '<h2 class="faq__h"><button class="faq__q" type="button" id="' + id + '-q" aria-expanded="false" aria-controls="' + id + '-a">' +
+          '<span class="faq__n" aria-hidden="true">' + n + '</span><span class="faq__qt">' + esc(it.q) + '</span><span class="faq__ico" aria-hidden="true"></span>' +
+        '</button></h2>' +
+        '<div class="faq__a" id="' + id + '-a" role="region" aria-labelledby="' + id + '-q"><div>' + faqText(it.a) + '</div></div>' +
+      '</div>';
+    }).join('');
+    return {
+      html: '<div class="wrap page-head"><div class="faq">' +
+        '<header class="faq__head rv"><p class="label"><b>' + esc(intro.tag.split(' — ')[0]) + '</b> — ' + esc(intro.tag.split(' — ').slice(1).join(' — ')) + '</p>' +
+          '<h1 class="h1 faq__title">' + esc(intro.title) + '</h1><p class="faq__sub">' + esc(intro.sub) + '</p></header>' +
+        '<div class="faq__list rv" style="--i:1">' + list + '</div>' +
+      '</div></div>',
+      title: 'Centro de ayuda | ' + NAME,
+      description: 'Preguntas frecuentes de ' + NAME + ': compras, pagos, producción por pedido, talles, envíos, cambios y contacto.',
+      jsonLd: {
+        '@context': 'https://schema.org', '@type': 'FAQPage',
+        mainEntity: items.map(function (it) {
+          return { '@type': 'Question', name: it.q, acceptedAnswer: { '@type': 'Answer', text: faqPlain(it.a) } };
+        })
+      }
+    };
+  }
+
   /* ---------- Páginas informativas ---------- */
   function info(key) {
+    if (key === 'faq') return faq();
     var pg = BS.pages[key];
     if (!pg) return null;
     var body = pg.body && pg.body.length
@@ -1964,6 +2073,34 @@ BS.shippingNote = '';
       if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
     });
   }
+
+  /* ================= Centro de ayuda: acordeón ================= */
+  function faqSet(item, open) {
+    var btn = $('.faq__q', item), box = $('.faq__a', item);
+    if (!btn || !box) return;
+    item.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    var h = box.scrollHeight;
+    if (open) {
+      box.style.height = h + 'px';
+      var done = function (e) { if (e && e.propertyName !== 'height') return; box.removeEventListener('transitionend', done); if (item.classList.contains('is-open')) box.style.height = 'auto'; };
+      box.addEventListener('transitionend', done);
+      setTimeout(done, 700);
+    } else {
+      box.style.height = box.getBoundingClientRect().height + 'px';
+      void box.offsetHeight;
+      box.style.height = '0px';
+    }
+  }
+  app.addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('.faq__q') : null;
+    if (!btn) return;
+    var item = btn.closest('.faq__item');
+    faqSet(item, !item.classList.contains('is-open'));
+  });
+  window.addEventListener('resize', function () {
+    $$('.faq__item.is-open .faq__a').forEach(function (b) { if (b.style.height !== 'auto') b.style.height = 'auto'; });
+  });
 
   /* ================= Overlays ================= */
   function openDlg(id) {
