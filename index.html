@@ -126,8 +126,8 @@ html.is-home .header:not(.is-solid) { background: linear-gradient(to bottom, rgb
 .logo { display: block; justify-self: center; }
 .logo img { width: clamp(124px, 12vw, 176px); height: auto; transition: opacity .3s; }
 .logo:hover img { opacity: .75; }
-.nav { display: none; gap: clamp(18px, 2.2vw, 38px); }
-.nav a { position: relative; font: 500 11.5px var(--font-mono); letter-spacing: .18em; text-transform: uppercase; padding-block: 10px; }
+.nav { display: none; gap: clamp(14px, 1.8vw, 38px); }
+.nav a { position: relative; white-space: nowrap; font: 500 11.5px var(--font-mono); letter-spacing: .18em; text-transform: uppercase; padding-block: 10px; }
 .nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 4px; height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: right; transition: transform .5s var(--ease-out); }
 .nav a:hover::after, .nav a[aria-current="page"]::after { transform: scaleX(1); transform-origin: left; }
 .actions { display: flex; align-items: center; justify-self: end; gap: 0; }
@@ -668,6 +668,7 @@ dialog.dlg--lb { position: fixed; inset: 0; width: 100%; height: 100%; backgroun
     <nav class="menu__links" aria-label="Menú principal">
       <a href="#tienda" data-nav="tienda" style="--i:0">Shop</a>
       <a href="#new-drop" data-nav="new-drop" style="--i:1">New drop</a>
+      <a href="#drop-001" data-nav="drop-001" style="--i:1">Drop 001</a>
       <a href="#best-sellers" data-nav="best-sellers" style="--i:2">Best sellers</a>
       <a href="#colecciones" data-nav="colecciones" style="--i:3">Collections</a>
       <a href="#nosotros" data-nav="nosotros" style="--i:4">About us</a>
@@ -860,7 +861,77 @@ BS.collections = [
   { id: 'secret-society', label: 'Secret Society', blurb: 'Iconografía clásica, estética underground.', image: 'img/p-ss-negra.webp' }
 ];
 
+BS.drops = [
+  { id: '003', label: 'NEW DROP 003', blurb: 'El drop actual.' },
+  { id: '001', label: 'DROP 001', blurb: 'El primer drop de BLACKSHOUT: logotipo Black Shout Studios, ©2026 Based in ARG.' }
+];
+
 BS.products = [
+  /* ===== DROP 003 — altas del 2026-11-20 (precio remeras $25.000, por pedido) ===== */
+  {
+    id: 'ww-negra-rosa', name: 'Worldwide Tee Negra Rosa', category: 'remeras', collection: 'worldwide',
+    price: 25000, compareAt: null, color: 'Negro / Rosa',
+    images: ['img/p-ww-negra-rosa.webp'],
+    stock: { S: 99, M: 99, L: 99, XL: 99 },
+    isNew: true, drop: '003', bestSeller: false,
+    description: 'Remera negra con la leyenda The WorldWide en rosa sobre el pecho y el logotipo BSHOUT con contorno rosa sobre el costado.',
+    specs: { fit: null, estampa: 'DTF', composicion: null }
+  },
+  {
+    id: 'ww-negra-bordo', name: 'Worldwide Tee Negra Bordó', category: 'remeras', collection: 'worldwide',
+    price: 25000, compareAt: null, color: 'Negro / Bordó',
+    images: ['img/p-ww-negra-bordo.webp'],
+    stock: { S: 99, M: 99, L: 99, XL: 99 },
+    isNew: true, drop: '003', bestSeller: false,
+    description: 'Remera negra con la leyenda The WorldWide en bordó sobre el pecho y el logotipo BSHOUT con contorno bordó sobre el costado.',
+    specs: { fit: null, estampa: 'DTF', composicion: null }
+  },
+  {
+    id: 'bs-crema-celeste-grande', name: 'BS Oval Tee Crema Celeste Grande', category: 'remeras', collection: 'bs-oval',
+    price: 25000, compareAt: null, color: 'Crema / Celeste',
+    images: ['img/p-bs-crema-celeste-grande.webp'],
+    stock: { S: 99, M: 99, L: 99, XL: 99 },
+    isNew: true, drop: '003', bestSeller: false,
+    description: 'Remera crema con el isologo BS Oval en celeste y violeta, estampa grande, con la leyenda BLACKSHOUT.',
+    specs: { fit: null, estampa: 'DTF', composicion: null }
+  },
+  {
+    id: 'bs-crema-celeste-mediana', name: 'BS Oval Tee Crema Celeste Mediana', category: 'remeras', collection: 'bs-oval',
+    price: 25000, compareAt: null, color: 'Crema / Celeste',
+    images: ['img/p-bs-crema-celeste-mediana.webp'],
+    stock: { S: 99, M: 99, L: 99, XL: 99 },
+    isNew: true, drop: '003', bestSeller: false,
+    description: 'Remera crema con el isologo BS Oval en celeste y violeta, estampa mediana, con la leyenda BLACKSHOUT.',
+    specs: { fit: null, estampa: 'DTF', composicion: null }
+  },
+  {
+    id: 'bs-crema-celeste-chica', name: 'BS Oval Tee Crema Celeste Chica', category: 'remeras', collection: 'bs-oval',
+    price: 25000, compareAt: null, color: 'Crema / Celeste',
+    images: ['img/p-bs-crema-celeste-chica.webp'],
+    stock: { S: 99, M: 99, L: 99, XL: 99 },
+    isNew: true, drop: '003', bestSeller: false,
+    description: 'Remera crema con el isologo BS Oval en celeste y violeta, estampa chica, con la leyenda BLACKSHOUT.',
+    specs: { fit: null, estampa: 'DTF', composicion: null }
+  },
+  {
+    id: 'bs-crema-plata-chica', name: 'BS Oval Tee Crema Plata Chica', category: 'remeras', collection: 'bs-oval',
+    price: 25000, compareAt: null, color: 'Crema / Plata',
+    images: ['img/p-bs-crema-plata-chica.webp'],
+    stock: { S: 99, M: 99, L: 99, XL: 99 },
+    isNew: true, drop: '003', bestSeller: false,
+    description: 'Remera crema con el isologo BS Oval en cromado en plata, estampa chica, con la leyenda BLACKSHOUT.',
+    specs: { fit: null, estampa: 'DTF', composicion: null }
+  },
+  {
+    id: 'bs-crema-lima-chica', name: 'BS Oval Tee Crema Lima Chica', category: 'remeras', collection: 'bs-oval',
+    price: 25000, compareAt: null, color: 'Crema / Lima y rojo',
+    images: ['img/p-bs-crema-lima-chica.webp'],
+    stock: { S: 99, M: 99, L: 99, XL: 99 },
+    isNew: true, drop: '003', bestSeller: false,
+    description: 'Remera crema con el isologo BS Oval en lima y rojo, estampa chica, con la leyenda BLACKSHOUT.',
+    specs: { fit: null, estampa: 'DTF', composicion: null }
+  },
+
   /* ===== Altas del 2026-11-07 =====
    * Precios: baby tees $20.000, remeras $25.000, Chaleco $27.000.
    * Todo se hace POR PEDIDO: el stock 99 por talle significa "sin límite";
@@ -870,7 +941,7 @@ BS.products = [
     price: 20000, compareAt: null, color: 'Negro / Rojo',
     images: ['img/p-baby-worldwide.webp'],
     stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, bestSeller: false,
+    isNew: true, drop: '003', bestSeller: false,
     description: 'Baby tee negra, calce ajustado, con el logotipo BSHOUT en rojo y la leyenda World Wide en el pecho.',
     specs: { fit: 'Baby tee (ajustada)', estampa: 'DTF', composicion: null }
   },
@@ -879,7 +950,7 @@ BS.products = [
     price: 20000, compareAt: null, color: 'Negro / Plata',
     images: ['img/p-baby-bs-plata.webp'],
     stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, bestSeller: false,
+    isNew: true, drop: '003', bestSeller: false,
     description: 'Baby tee negra, calce ajustado, con el isologo BS Oval cromado en plata sobre el pecho.',
     specs: { fit: 'Baby tee (ajustada)', estampa: 'DTF', composicion: null }
   },
@@ -888,7 +959,7 @@ BS.products = [
     price: 20000, compareAt: null, color: 'Negro / Lima y rojo',
     images: ['img/p-baby-bs-lima.webp'],
     stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, bestSeller: false,
+    isNew: true, drop: '003', bestSeller: false,
     description: 'Baby tee negra, calce ajustado, con el isologo BS Oval en lima y rojo sobre el pecho.',
     specs: { fit: 'Baby tee (ajustada)', estampa: 'DTF', composicion: null }
   },
@@ -897,7 +968,7 @@ BS.products = [
     price: 25000, compareAt: null, color: 'Negro / Lima y rojo',
     images: ['img/p-bs-negra-lima.webp'],
     stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, bestSeller: false,
+    isNew: true, drop: '003', bestSeller: false,
     description: 'Remera negra con el isologo BS Oval grande en lima y rojo, con la leyenda BLACKSHOUT.',
     specs: { fit: null, estampa: 'DTF', composicion: null }
   },
@@ -906,7 +977,7 @@ BS.products = [
     price: 25000, compareAt: null, color: 'Negro / Plata',
     images: ['img/p-bs-negra-plata.webp'],
     stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, bestSeller: false,
+    isNew: true, drop: '003', bestSeller: false,
     description: 'Remera negra con el isologo BS Oval grande cromado en plata, con la leyenda BLACKSHOUT.',
     specs: { fit: null, estampa: 'DTF', composicion: null }
   },
@@ -915,7 +986,7 @@ BS.products = [
     price: 25000, compareAt: null, color: 'Crema / Plata',
     images: ['img/p-bs-crema-plata.webp'],
     stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, bestSeller: false,
+    isNew: true, drop: '003', bestSeller: false,
     description: 'Remera crema con el isologo BS Oval grande cromado en plata, con la leyenda BLACKSHOUT.',
     specs: { fit: null, estampa: 'DTF', composicion: null }
   },
@@ -924,7 +995,7 @@ BS.products = [
     price: 25000, compareAt: null, color: 'Crema / Lima y rojo',
     images: ['img/p-bs-crema-lima.webp'],
     stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, bestSeller: false,
+    isNew: true, drop: '003', bestSeller: false,
     description: 'Remera crema con el isologo BS Oval grande en lima y rojo, con la leyenda BLACKSHOUT.',
     specs: { fit: null, estampa: 'DTF', composicion: null }
   },
@@ -933,7 +1004,7 @@ BS.products = [
     price: 25000, compareAt: null, color: 'Crema / Rosa',
     images: ['img/p-bshout-crema-rosa.webp'],
     stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, bestSeller: false,
+    isNew: true, drop: '003', bestSeller: false,
     description: 'Remera crema con el logotipo BSHOUT en blanco con contorno rosa en semitono, sobre el pecho.',
     specs: { fit: null, estampa: 'DTF en semitono', composicion: null }
   },
@@ -942,7 +1013,7 @@ BS.products = [
     price: 25000, compareAt: null, color: 'Negro / Celeste',
     images: ['img/p-ss-negra.webp'],
     stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, bestSeller: false,
+    isNew: true, drop: '003', bestSeller: false,
     description: 'Remera negra con la leyenda The Company / Secret Society en celeste sobre el pecho y el logotipo BSHOUT en semitono sobre el costado.',
     specs: { fit: null, estampa: 'DTF', composicion: null }
   },
@@ -951,7 +1022,7 @@ BS.products = [
     price: 25000, compareAt: null, color: 'Crema / Rosa',
     images: ['img/p-ss-crema-rosa.webp'],
     stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, bestSeller: false,
+    isNew: true, drop: '003', bestSeller: false,
     description: 'Remera crema con la leyenda The Company / Secret Society en rosa sobre el pecho y el logotipo BSHOUT en semitono sobre el costado.',
     specs: { fit: null, estampa: 'DTF', composicion: null }
   },
@@ -960,7 +1031,7 @@ BS.products = [
     price: 27000, compareAt: null, color: 'Negro / Rosa',
     images: ['img/p-chaleco-negro-rosa.webp'],
     stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, bestSeller: false,
+    isNew: true, drop: '003', bestSeller: false,
     description: 'Remera negra con la estampa del chaleco táctico en rosa y el parche BSHOUT sobre el pecho.',
     specs: { fit: null, estampa: 'DTF en semitono', composicion: null }
   },
@@ -969,7 +1040,7 @@ BS.products = [
     price: 27000, compareAt: null, color: 'Negro / Celeste',
     images: ['img/p-chaleco-negro-celeste.webp'],
     stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, bestSeller: false,
+    isNew: true, drop: '003', bestSeller: false,
     description: 'Remera negra con la estampa del chaleco táctico en celeste y el parche BSHOUT sobre el pecho.',
     specs: { fit: null, estampa: 'DTF en semitono', composicion: null }
   },
@@ -980,7 +1051,7 @@ BS.products = [
     price: 27000, compareAt: null, color: 'Negro',
     images: ['img/p-chaleco-negro.webp'],
     stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, bestSeller: false,
+    isNew: true, drop: '003', bestSeller: false,
     description: 'Remera negra con estampa de chaleco táctico en semitono y el parche BSHOUT sobre el pecho. Estampa DTF de 38 x 46 cm.',
     specs: { fit: null, estampa: 'DTF en semitono, 38 x 46 cm', composicion: null }
   },
@@ -989,7 +1060,7 @@ BS.products = [
     price: 27000, compareAt: null, color: 'Crema / Rosa',
     images: ['img/p-chaleco-rosa.webp'],
     stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, bestSeller: false,
+    isNew: true, drop: '003', bestSeller: false,
     description: 'La estampa del chaleco BSHOUT en rosa sobre remera crema.',
     specs: { fit: null, estampa: 'DTF', composicion: null }
   },
@@ -998,9 +1069,29 @@ BS.products = [
     price: 27000, compareAt: null, color: 'Crema / Celeste',
     images: ['img/p-chaleco-celeste.webp'],
     stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, bestSeller: false,
+    isNew: true, drop: '003', bestSeller: false,
     description: 'La estampa del chaleco BSHOUT en celeste sobre remera crema.',
     specs: { fit: null, estampa: 'DTF', composicion: null }
+  },
+
+  /* ===== DROP 001 — primer drop (logotipo Black Shout Studios) ===== */
+  {
+    id: 'studios-blanca', name: 'Black Shout Studios Tee Blanca', category: 'remeras', collection: 'worldwide',
+    price: 25000, compareAt: null, color: 'Blanco / Azul',
+    images: ['img/p-studios-blanca.webp'],
+    stock: { S: 99, M: 99, L: 99, XL: 99 },
+    isNew: false, drop: '001', bestSeller: false,
+    description: 'Remera blanca con el logotipo Black Shout Studios en azul sobre el pecho y la leyenda ©2026 Based in ARG. Primer drop.',
+    specs: { fit: null, estampa: null, composicion: null }
+  },
+  {
+    id: 'studios-negra', name: 'Black Shout Studios Tee Negra', category: 'remeras', collection: 'worldwide',
+    price: 25000, compareAt: null, color: 'Negro / Blanco',
+    images: ['img/p-studios-negra.webp'],
+    stock: { S: 99, M: 99, L: 99, XL: 99 },
+    isNew: false, drop: '001', bestSeller: false,
+    description: 'Remera negra con el logotipo Black Shout Studios en blanco sobre el pecho y la leyenda ©2026 Based in ARG. Primer drop.',
+    specs: { fit: null, estampa: null, composicion: null }
   }
 ];
 
@@ -1071,6 +1162,7 @@ BS.shippingNote = '';
         if (opts.category && p.category !== opts.category) return false;
         if (opts.collection && p.collection !== opts.collection) return false;
         if (opts.isNew && !p.isNew) return false;
+        if (opts.drop && p.drop !== opts.drop) return false;
         if (opts.bestSeller && !p.bestSeller) return false;
         if (opts.lastUnits && !BS.catalog.lastUnits(p)) return false;
         if (opts.onlyAvailable && BS.catalog.soldOut(p)) return false;
@@ -1349,6 +1441,7 @@ BS.shippingNote = '';
     if (BS.catalog.soldOut(p)) out.push('<span class="badge badge--out">AGOTADO</span>');
     else {
       if (p.isNew) out.push('<span class="badge badge--new">NEW DROP</span>');
+      else if (p.drop) out.push('<span class="badge">DROP ' + esc(p.drop) + '</span>');
       if (BS.catalog.lastUnits(p)) out.push('<span class="badge badge--last">ÚLTIMAS UNIDADES</span>');
       var d = BS.catalog.discount(p);
       if (d) out.push('<span class="badge badge--sale">-' + d + '%</span>');
@@ -1520,30 +1613,37 @@ BS.shippingNote = '';
     var best = BS.catalog.query({ bestSeller: true, onlyAvailable: true }).slice(0, 4);
     var last = BS.catalog.query({ lastUnits: true });
 
+    var d1 = BS.catalog.query({ drop: '001' });
+    var k = 0, nn = function () { k++; return k < 10 ? '0' + k : String(k); };
+
     var html = '' +
       hero() + marquee() +
 
       '<section class="wrap sec" id="sec-new">' +
-        ui.sectionHead('LANZAMIENTOS', 'NEW DROP', '#new-drop', 'VER TODO (' + all.length + ')', '01') +
+        ui.sectionHead('LANZAMIENTOS', 'NEW DROP 003', '#new-drop', 'VER TODO (' + all.length + ')', nn()) +
         ui.grid(nw) +
       '</section>' +
 
+      (d1.length ? '<section class="wrap sec" id="sec-drop-001">' +
+        ui.sectionHead('PRIMER DROP', 'DROP 001', '#drop-001', 'VER TODO (' + d1.length + ')', nn()) +
+        ui.grid(d1) + '</section>' : '') +
+
       '<section class="wrap sec" aria-labelledby="cats-title">' +
-        '<header class="sec-head rv"><div><p class="label"><i>(02)</i><span>COMPRAR POR</span></p><h2 class="h2" id="cats-title">CATEGORÍA</h2></div>' +
+        '<header class="sec-head rv"><div><p class="label"><i>(' + nn() + ')</i><span>COMPRAR POR</span></p><h2 class="h2" id="cats-title">CATEGORÍA</h2></div>' +
         '<a class="link-arrow" href="#tienda">TODO EL SHOP ' + ui.icon('arrow') + '</a></header>' +
         categoryList() +
       '</section>' +
 
       (best.length ? '<section class="wrap sec">' +
-        ui.sectionHead('LO MÁS ELEGIDO', 'BEST SELLERS', '#best-sellers', 'VER TODO', '03') +
+        ui.sectionHead('LO MÁS ELEGIDO', 'BEST SELLERS', '#best-sellers', 'VER TODO', nn()) +
         ui.grid(best) + '</section>' : '') +
 
       (last.length ? '<section class="wrap sec sec--last">' +
-        ui.sectionHead('STOCK LIMITADO', 'LAST UNITS', '#last-units', 'VER TODO', '04') +
+        ui.sectionHead('STOCK LIMITADO', 'LAST UNITS', '#last-units', 'VER TODO', nn()) +
         ui.grid(last, { showLeft: true }) + '</section>' : '') +
 
       '<section class="wrap sec" aria-labelledby="camp-title">' +
-        '<header class="sec-head rv"><div><p class="label"><i>(' + (best.length || last.length ? '05' : '03') + ')</i><span>CAMPAIGN / EDITORIAL</span></p><h2 class="h2" id="camp-title">LUJO CALLEJERO</h2></div>' +
+        '<header class="sec-head rv"><div><p class="label"><i>(' + nn() + ')</i><span>CAMPAIGN / EDITORIAL</span></p><h2 class="h2" id="camp-title">LUJO CALLEJERO</h2></div>' +
         '<a class="link-arrow" href="#colecciones">COLECCIONES ' + ui.icon('arrow') + '</a></header>' +
         collectionTiles(true) +
       '</section>' +
@@ -1573,7 +1673,8 @@ BS.shippingNote = '';
 
   var LISTS = {
     tienda:         { label: 'CATÁLOGO', title: 'SHOP',         query: {} },
-    'new-drop':     { label: 'LANZAMIENTOS', title: 'NEW DROP', query: { isNew: true } },
+    'new-drop':     { label: 'LANZAMIENTOS', title: 'NEW DROP 003', query: { isNew: true } },
+    'drop-001':     { label: 'PRIMER DROP', title: 'DROP 001', query: { drop: '001' } },
     'best-sellers': { label: 'LO MÁS ELEGIDO', title: 'BEST SELLERS', query: { bestSeller: true } },
     'last-units':   { label: 'STOCK LIMITADO', title: 'LAST UNITS', query: { lastUnits: true }, showLeft: true }
   };
