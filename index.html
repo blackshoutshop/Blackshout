@@ -671,7 +671,7 @@ dialog.dlg--lb { position: fixed; inset: 0; width: 100%; height: 100%; backgroun
 
 <header class="header" id="header">
   <p class="annc"><span>10% Off en transferencia</span><span>Hecho por pedido</span><span>Made in Argentina</span></p>
-  <div id="devstrip" class="devstrip" hidden><p class="wrap">Hecho por pedido · guía de talles a confirmar</p></div>
+  <div id="devstrip" class="devstrip" hidden><p class="wrap">Hecho a pedido</p></div>
   <div class="wrap header__in">
     <div class="header__left">
       <button class="iconbtn menubtn" type="button" data-action="open-menu" aria-label="Abrir menú"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" aria-hidden="true"><path d="M3.5 8h17M3.5 16h17"/></svg></button>
@@ -882,7 +882,7 @@ BS.config = {
 window.BS = window.BS || {};
 
 BS.categories = [
-  { id: 'remeras',    label: 'Remeras',    image: 'img/p-chaleco-negro.webp' },
+  { id: 'remeras',    label: 'Remeras',    image: 'img/p-bs-negra-plata.webp' },
   { id: 'buzos',      label: 'Buzos',      image: null },
   { id: 'camperas',   label: 'Camperas',   image: null },
   { id: 'pantalones', label: 'Pantalones', image: null },
@@ -891,7 +891,6 @@ BS.categories = [
 ];
 
 BS.collections = [
-  { id: 'chaleco', label: 'Chaleco', blurb: 'El chaleco táctico en semitono con el parche BSHOUT.', image: 'img/p-chaleco-negro.webp' },
   { id: 'bs-oval', label: 'BS Oval', blurb: 'El isologo BS cromado, edición World Wide 003.', image: 'img/p-bs-negra-plata.webp' },
   { id: 'worldwide', label: 'Worldwide', blurb: 'Logotipo BSHOUT, EST. 2026. Base de la marca.', image: 'img/p-baby-worldwide.webp' },
   { id: 'secret-society', label: 'Secret Society', blurb: 'Iconografía clásica, estética underground.', image: 'img/p-ss-negra.webp' }
@@ -1051,53 +1050,6 @@ BS.products = [
     stock: { S: 99, M: 99, L: 99, XL: 99 },
     isNew: true, drop: '003', bestSeller: false,
     description: 'Remera crema con la leyenda The Company / Secret Society en rosa sobre el pecho y el logotipo BSHOUT en semitono sobre el costado.',
-    specs: { fit: null, estampa: 'DTF', composicion: null }
-  },
-  {
-    id: 'chaleco-negro-rosa', name: 'Chaleco Tee Negra Rosa', category: 'remeras', collection: 'chaleco',
-    price: 27000, compareAt: null, color: 'Negro / Rosa',
-    images: ['img/p-chaleco-negro-rosa.webp'],
-    stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, drop: '003', bestSeller: false,
-    description: 'Remera negra con la estampa del chaleco táctico en rosa y el parche BSHOUT sobre el pecho.',
-    specs: { fit: null, estampa: 'DTF en semitono', composicion: null }
-  },
-  {
-    id: 'chaleco-negro-celeste', name: 'Chaleco Tee Negra Celeste', category: 'remeras', collection: 'chaleco',
-    price: 27000, compareAt: null, color: 'Negro / Celeste',
-    images: ['img/p-chaleco-negro-celeste.webp'],
-    stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, drop: '003', bestSeller: false,
-    description: 'Remera negra con la estampa del chaleco táctico en celeste y el parche BSHOUT sobre el pecho.',
-    specs: { fit: null, estampa: 'DTF en semitono', composicion: null }
-  },
-
-  /* ===== Chaleco (ya estaban en el catálogo; ahora con la foto nueva) ===== */
-  {
-    id: 'chaleco-negro', name: 'Chaleco Tee Negra', category: 'remeras', collection: 'chaleco',
-    price: 27000, compareAt: null, color: 'Negro',
-    images: ['img/p-chaleco-negro.webp'],
-    stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, drop: '003', bestSeller: false,
-    description: 'Remera negra con estampa de chaleco táctico en semitono y el parche BSHOUT sobre el pecho. Estampa DTF de 38 x 46 cm.',
-    specs: { fit: null, estampa: 'DTF en semitono, 38 x 46 cm', composicion: null }
-  },
-  {
-    id: 'chaleco-rosa', name: 'Chaleco Tee Crema Rosa', category: 'remeras', collection: 'chaleco',
-    price: 27000, compareAt: null, color: 'Crema / Rosa',
-    images: ['img/p-chaleco-rosa.webp'],
-    stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, drop: '003', bestSeller: false,
-    description: 'La estampa del chaleco BSHOUT en rosa sobre remera crema.',
-    specs: { fit: null, estampa: 'DTF', composicion: null }
-  },
-  {
-    id: 'chaleco-celeste', name: 'Chaleco Tee Crema Celeste', category: 'remeras', collection: 'chaleco',
-    price: 27000, compareAt: null, color: 'Crema / Celeste',
-    images: ['img/p-chaleco-celeste.webp'],
-    stock: { S: 99, M: 99, L: 99, XL: 99 },
-    isNew: true, drop: '003', bestSeller: false,
-    description: 'La estampa del chaleco BSHOUT en celeste sobre remera crema.',
     specs: { fit: null, estampa: 'DTF', composicion: null }
   },
 
@@ -1794,7 +1746,7 @@ BS.shippingNote = '';
   function collections() {
     var html = '<div class="wrap page-head"><p class="label">COLLECTIONS</p><h1 class="h1">COLECCIONES</h1></div>' +
       '<section class="wrap">' + collectionTiles(false) + '</section>';
-    return { html: html, title: 'Colecciones | ' + NAME, description: 'Colecciones de BLACKSHOUT: Chaleco, BS Oval, Worldwide y Secret Society.' };
+    return { html: html, title: 'Colecciones | ' + NAME, description: 'Colecciones de BLACKSHOUT: BS Oval, Worldwide y Secret Society.' };
   }
 
   function collection(id) {

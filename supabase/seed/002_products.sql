@@ -22,11 +22,6 @@ insert into public.products (id, name, category, collection, color, price, sizes
   ('bshout-crema-rosa', 'BSHOUT Tee Crema Rosa', 'remeras', 'worldwide', 'Crema / Rosa', 25000.00, array['S','M','L','XL']),
   ('ss-negra-azul', 'Secret Society Company Tee Negra', 'remeras', 'secret-society', 'Negro / Celeste', 25000.00, array['S','M','L','XL']),
   ('ss-crema-rosa', 'Secret Society Company Tee Crema', 'remeras', 'secret-society', 'Crema / Rosa', 25000.00, array['S','M','L','XL']),
-  ('chaleco-negro-rosa', 'Chaleco Tee Negra Rosa', 'remeras', 'chaleco', 'Negro / Rosa', 27000.00, array['S','M','L','XL']),
-  ('chaleco-negro-celeste', 'Chaleco Tee Negra Celeste', 'remeras', 'chaleco', 'Negro / Celeste', 27000.00, array['S','M','L','XL']),
-  ('chaleco-negro', 'Chaleco Tee Negra', 'remeras', 'chaleco', 'Negro', 27000.00, array['S','M','L','XL']),
-  ('chaleco-rosa', 'Chaleco Tee Crema Rosa', 'remeras', 'chaleco', 'Crema / Rosa', 27000.00, array['S','M','L','XL']),
-  ('chaleco-celeste', 'Chaleco Tee Crema Celeste', 'remeras', 'chaleco', 'Crema / Celeste', 27000.00, array['S','M','L','XL']),
   ('studios-blanca', 'Black Shout Studios Tee Blanca', 'remeras', 'worldwide', 'Blanco / Azul', 25000.00, array['S','M','L','XL']),
   ('studios-negra', 'Black Shout Studios Tee Negra', 'remeras', 'worldwide', 'Negro / Blanco', 25000.00, array['S','M','L','XL'])
 on conflict (id) do update set
@@ -37,3 +32,6 @@ on conflict (id) do update set
   price = excluded.price,
   sizes = excluded.sizes,
   active = true;
+
+-- Productos que ya no se venden (se retiraron del catálogo de la web): quedan guardados pero inactivos.
+update public.products set active = false where collection = 'chaleco';
